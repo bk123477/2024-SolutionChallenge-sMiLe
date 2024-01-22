@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'depression_diagnosis_selection_screen.dart';
+
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
@@ -59,7 +61,11 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
+//TODO: 지금은 로그인화면으로 가거나 자동으로 로그인 시켜주지 않고 바로 진단화면으로 간다. 이것은 나중에 로직을 다시 짜야함.
   void _signup() {
-    // 회원가입 로직 구현
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
+    );
   }
 }

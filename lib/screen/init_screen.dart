@@ -22,12 +22,12 @@ class _InitScreenState extends State<InitScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ElevatedButton(
-                onPressed: _signin,
+                onPressed: _navtosignin,
                 child: Text('Sign In'),
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _signup,
+                onPressed: _navtosignup,
                 child: Text('Sign Up'),
               ),
             ],
@@ -37,14 +37,14 @@ class _InitScreenState extends State<InitScreen> {
     );
   }
 
-  void _signin() {
+  void _navtosignin() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SigninScreen()),
     );
   }
 
-  void _signup() {
+  void _navtosignup() {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SignupScreen()),
