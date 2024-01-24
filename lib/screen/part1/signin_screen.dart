@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smile_front/screen/part2/home_screen.dart';
 import '../part2/chat_screen_manager.dart';
 
 class SigninScreen extends StatefulWidget {
@@ -85,7 +86,7 @@ class _SigninScreenState extends State<SigninScreen> {
     // 로그인 로직 구현
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ChatScreenManager()),
+      MaterialPageRoute(builder: (context) => HomeScreen()),
     );
   }
 }
