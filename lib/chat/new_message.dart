@@ -10,7 +10,7 @@ class NewMessage extends StatefulWidget {
 class _NewMessageState extends State<NewMessage> {
   final _controller = TextEditingController();
 
-  void _sendMessage() {
+  void _sendMessage() { //TODO: 전송메시지 로직 상위 위젯에서 전달받기
     FocusScope.of(context).unfocus();
     // 메시지 전송 로직을 여기에 구현합니다.
     _controller.clear();

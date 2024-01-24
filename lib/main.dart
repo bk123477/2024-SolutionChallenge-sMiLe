@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smile_front/screen/init_screen.dart';
+import 'package:smile_front/screen/part1/init_screen.dart';
 
 void main(){
   runApp(MyApp());

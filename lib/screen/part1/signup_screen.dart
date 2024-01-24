@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'depression_diagnosis_selection_screen.dart';
+import './depression_diagnosis_selection_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);

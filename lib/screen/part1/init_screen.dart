@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:smile_front/screen/signin_screen.dart';
-import 'package:smile_front/screen/signup_screen.dart';
+import 'package:smile_front/screen/part1/signin_screen.dart';
+import 'package:smile_front/screen/part1/signup_screen.dart';
 
 class InitScreen extends StatefulWidget {
   const InitScreen({Key? key}) : super(key: key);

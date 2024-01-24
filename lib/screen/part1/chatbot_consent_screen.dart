@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'chat_screen.dart';
+import './depression_chatbot_screen.dart';
 
 class ChatbotConsentScreen extends StatelessWidget {
   const ChatbotConsentScreen({Key? key}) : super(key: key);
@@ -35,7 +35,7 @@ class ChatbotConsentScreen extends StatelessWidget {
   void _agreeAndStartChat(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ChatScreen()),
+      MaterialPageRoute(builder: (context) => DepressionChatbotScreen()),
     );// 챗봇 대화 진단 페이지로 이동
   }
 }

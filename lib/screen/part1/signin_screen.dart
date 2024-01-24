@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../function/chatscreenmgr_part2_function.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({Key? key}) : super(key: key);
@@ -82,5 +83,9 @@ class _SigninScreenState extends State<SigninScreen> {
 
   void _signin() {
     // 로그인 로직 구현
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ChatScreenManager()),
+    );
   }
 }
