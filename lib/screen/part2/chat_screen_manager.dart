@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../screen/part2/dailydialogue_chatbot_screen.dart'; // DailydialogueChatbotScreen import
-import '../screen/part2/emotiontrashbin_chatbot_screen.dart'; // EmotiontrashbinChatbotScreen import
+import 'dailydialogue_chatbot_widget.dart';
+import 'emotiontrashbin_chatbot_widget.dart';
 
 class ChatScreenManager extends StatefulWidget {
   const ChatScreenManager({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class _ChatScreenManagerState extends State<ChatScreenManager> {
   @override
   Widget build(BuildContext context) {
     return isDailyDialogueScreen
-        ? DailydialogueChatbotScreen(onToggleScreen: toggleScreen)
-        : EmotiontrashbinChatbotScreen(onToggleScreen: toggleScreen);
+        ? DailydialogueChatbotWidget(onToggleScreen: toggleScreen)
+        : EmotiontrashbinChatbotWidget(onToggleScreen: toggleScreen);
   }
 }

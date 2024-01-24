@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../function/chatscreenmgr_part2_function.dart';
+import '../part2/chat_screen_manager.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({Key? key}) : super(key: key);

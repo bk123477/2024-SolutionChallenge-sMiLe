@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import '../../chat/message.dart';
 import '../../chat/new_message.dart';
 
-class EmotiontrashbinChatbotScreen extends StatefulWidget {
+class DailydialogueChatbotWidget extends StatefulWidget {
   final VoidCallback onToggleScreen;
-  const EmotiontrashbinChatbotScreen({Key? key, required this.onToggleScreen}) : super(key: key);
+  const DailydialogueChatbotWidget({Key? key, required this.onToggleScreen}) : super(key: key);
+
 
   @override
-  State<EmotiontrashbinChatbotScreen> createState() => _EmotiontrashbinChatbotScreenState();
+  State<DailydialogueChatbotWidget> createState() => _DailydialogueChatbotWidgetState();
 }
 
-class _EmotiontrashbinChatbotScreenState extends State<EmotiontrashbinChatbotScreen> {
+class _DailydialogueChatbotWidgetState extends State<DailydialogueChatbotWidget> {
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +19,9 @@ class _EmotiontrashbinChatbotScreenState extends State<EmotiontrashbinChatbotScr
       appBar: AppBar(
         title: TextButton(
           onPressed: () => widget.onToggleScreen(),
+
           child: Text(
-            '감쓰(감정쓰레기통)',
+            '일상대화',
             style: TextStyle(
               color: Colors.black,  // AppBar의 배경색과 대비되도록 색상 지정
               fontSize: 18,
