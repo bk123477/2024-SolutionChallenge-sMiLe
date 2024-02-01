@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smile_front/screen/part1/result_screen.dart';
 import '../../chat/message.dart';
 import '../../chat/new_message.dart';
 
@@ -16,7 +17,18 @@ class _DepressionChatbotScreenState extends State<DepressionChatbotScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('채팅을 통한 우울증 진단'),
-
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.assessment),
+            onPressed: () {
+              // 결과 페이지로 넘어가는 로직
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ResultScreen()), // 가상의 결과 스크린
+              );
+            },
+          ),
+        ],
       ),
       body: Container(
         child: Column(

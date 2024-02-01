@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smile_front/screen/part1/result_screen.dart';
 
 class DepressionChecklistScreen extends StatefulWidget {
   const DepressionChecklistScreen({Key? key}) : super(key: key);
@@ -58,5 +59,9 @@ class _DepressionChecklistScreenState extends State<DepressionChecklistScreen> {
 
   void _submitChecklist() {
     // 체크리스트 제출 로직
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ResultScreen()), // 가상의 결과 스크린
+    );
   }
 }
