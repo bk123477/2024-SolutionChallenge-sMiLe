@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:smile_front/screen/part1/init_screen.dart';
+
+import 'package:smile_front/screen/part1/loading_screen.dart';
+
+
 
 void main(){
   runApp(MyApp());
@@ -17,7 +20,7 @@ class MyApp extends StatelessWidget{
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'smile_front',
-        home: InitScreen(),
+        home: LoadingScreen(),
       ),
     );
   }
