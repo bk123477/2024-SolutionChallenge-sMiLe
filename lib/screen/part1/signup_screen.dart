@@ -73,7 +73,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _signup() {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
     );
