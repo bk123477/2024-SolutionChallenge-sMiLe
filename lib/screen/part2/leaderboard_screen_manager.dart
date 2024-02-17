@@ -28,7 +28,13 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('리더보드'),
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Image.asset(
+            'asset/img/smileimoge.png', // 앱바 중앙 이미지 경로. 실제 경로로 수정해주세요.
+            height: 40,
+          ),
+        ),
       ),
       body: Center(
         child: Column(

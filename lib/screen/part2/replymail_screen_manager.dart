@@ -19,7 +19,31 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('우편 답장하기'),
+          automaticallyImplyLeading: false, // 기본 뒤로 가기 버튼 비활성화
+          leading: TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              'Back',
+              style: TextStyle(
+                color: Colors.black, // AppBar 텍스트 색상과 일치시키기
+              ),
+            ),
+          ),
+          title: Center(
+            child: Image.asset(
+              'asset/img/smileimoge.png', // 앱바 중앙 이미지 경로. 실제 경로로 수정해주세요.
+              height: 40,
+            ),
+          ),
+          actions: [
+            Opacity(
+              opacity: 0.0, // 시각적 균형을 위한 더미 위젯
+              child: TextButton(
+                onPressed: () {},
+                child: Text('Back'),
+              ),
+            ),
+          ],
         ),
         body: Column(
           children: [

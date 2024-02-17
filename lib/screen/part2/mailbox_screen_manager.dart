@@ -19,8 +19,14 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('내 우체통'),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false, // 뒤로 가기 버튼 자동 생성 비활성화
+        title: Center(
+          child: Image.asset(
+            'asset/img/smileimoge.png', // 중앙 이미지 경로
+            height: 40,
+          ),
+        ),
+        centerTitle: true, // 이미지를 AppBar의 중앙에 위치시킵니다.
       ),
       body: Column(
         children: [
