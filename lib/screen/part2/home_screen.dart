@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'chat_screen_manager.dart';
 import 'leaderboard_screen_manager.dart';
 import 'mailbox_screen_manager.dart';
-import 'mypage_screen_manager.dart'; // ChatScreenManager import
-// 다른 화면들의 import가 필요하면 여기에 추가합니다.
+import 'mypage_screen_manager.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,10 +16,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 각 탭에 대응하는 화면들
   final List<Widget> _screens = [
-    ChatScreenManager(), // 채팅 화면
-    MailboxScreenManager(), // 우체통 화면 (구현 예정)
-    LeaderboardScreenManager(), // 리더보드 화면 (구현 예정)
-    MypageScreenManager(), // 마이페이지 화면 (구현 예정)
+    ChatScreenManager(),
+    MailboxScreenManager(),
+    LeaderboardScreenManager(),
+    MypageScreenManager(),
   ];
 
   void _onItemTapped(int index) {
@@ -36,27 +35,31 @@ class _HomeScreenState extends State<HomeScreen> {
         child: _screens.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
+            icon: Image.asset('asset/img/bottom_bar/chatbubble.png', width: 24, height: 24),
+            activeIcon: Image.asset('asset/img/bottom_bar/chatbubble_bold.png', width: 24, height: 24),
             label: '채팅',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.mail),
+            icon: Image.asset('asset/img/bottom_bar/mailbox.png', width: 24, height: 24),
+            activeIcon: Image.asset('asset/img/bottom_bar/mailbox_bold.png', width: 24, height: 24),
             label: '우체통',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.leaderboard),
+            icon: Image.asset('asset/img/bottom_bar/chart.png', width: 24, height: 24),
+            activeIcon: Image.asset('asset/img/bottom_bar/chart_bold.png', width: 24, height: 24),
             label: '리더보드',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Image.asset('asset/img/bottom_bar/mypage.png', width: 24, height: 24),
+            activeIcon: Image.asset('asset/img/bottom_bar/mypage_bold.png', width: 24, height: 24),
             label: '마이페이지',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.black, // 비활성화된 아이콘 색상을 검은색으로 설정
+        selectedItemColor: Colors.black, // 클릭 시 글씨 색상
+
         onTap: _onItemTapped,
       ),
     );
