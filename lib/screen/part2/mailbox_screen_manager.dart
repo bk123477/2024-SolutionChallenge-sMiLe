@@ -12,6 +12,11 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
   final List<String> notifications = [
     "새 우편이 도착했습니다! 1",
     "새 우편이 도착했습니다! 2",
+    "새 우편이 도착했습니다! 3",
+    "새 우편이 도착했습니다! 4",
+    "새 우편이 도착했습니다! 5",
+    "새 우편이 도착했습니다! 6",
+
     // ... 기타 알림
   ];
 
@@ -35,9 +40,13 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
               itemCount: notifications.length,
               itemBuilder: (context, index) {
                 return Card(
-                  color: Colors.grey[300],
+                  color: Colors.white, // 카드 배경색을 흰색으로 설정
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.grey, width: 1), // 회색 테두리
+                    borderRadius: BorderRadius.circular(4), // 테두리 둥글게
+                  ),
                   child: ListTile(
-                    title: Center(child: Text(notifications[index])),
+                    title: Center(child: Text(notifications[index], style: TextStyle(color: Colors.grey))),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -56,7 +65,10 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
               onPressed: () {
                 // 익명 상대에게 보내기 기능 구현
               },
-              child: Text('익명 상대에게 보내기'),
+              child: Text('익명 상대에게 보내기', style: TextStyle(color: Colors.black)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey, // 버튼 배경색을 회색으로 설정
+              ),
             ),
           ),
         ],
