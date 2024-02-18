@@ -1,7 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smile_front/screen/part1/depression_diagnosis_selection_screen.dart';
 import 'package:smile_front/screen/part1/signin_screen.dart';
-import 'package:smile_front/screen/part1/signup_screen.dart';
+import 'package:smile_front/screen/part1/signup_screen2.dart';
 import 'package:smile_front/config/palette.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class InitScreen extends StatefulWidget {
   const InitScreen({Key? key}) : super(key: key);
@@ -10,8 +15,11 @@ class InitScreen extends StatefulWidget {
   State<InitScreen> createState() => _InitScreenState();
 }
 
+GoogleSignIn googleSignIn = GoogleSignIn();
 class _InitScreenState extends State<InitScreen> {
   bool _isSignInVisible = true;
+  FirebaseAuth auth = FirebaseAuth.instance;
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +75,22 @@ class _InitScreenState extends State<InitScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
                   child: ElevatedButton.icon(
-                    onPressed: () {
-                      // Google 로그인/가입 로직 추가
+                    onPressed: () async {
+                      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+                      if (googleUser != null) {
+                        print('name = ${googleUser.email}');
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        prefs.clear();
+                        prefs.setString('email', googleUser.email);
+                        print(prefs.get('email'));
+                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
+                      );
                     },
                     icon: Image.asset('asset/img/glogo.png', height: 24.0),
-                    label: Text(_isSignInVisible ? 'Sign up with Google' : 'Sign in with Google'),
+                    label: Text(_isSignInVisible ? 'Start with Google' : 'Start with Google'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: Colors.white,
