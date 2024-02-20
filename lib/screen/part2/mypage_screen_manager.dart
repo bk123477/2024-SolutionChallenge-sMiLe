@@ -12,13 +12,10 @@ class MypageScreenManager extends StatefulWidget {
 
 class _MypageScreenManagerState extends State<MypageScreenManager> {
   final List<Map<String, String>> badges = [
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 1"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 2"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 3"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 4"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 5"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 6"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 7"},
+    {"image": "asset/img/badge/badge1.png", "description": "뱃지 1"},
+    {"image": "asset/img/badge/badge2.png", "description": "뱃지 2"},
+    {"image": "asset/img/badge/badge3.png", "description": "뱃지 3"},
+
   ];
 
   final List<String> medications = [
