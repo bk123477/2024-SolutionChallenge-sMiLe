@@ -34,7 +34,7 @@ class ChatBubbles extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage('asset/img/smileimoge.png'), // 프로필 이미지 경로
+                backgroundImage: AssetImage('asset/img/bot_image.png'), // 프로필 이미지 경로
                 radius: 16, // 원하는 크기로 조절
               ),
               SizedBox(width: 8),
