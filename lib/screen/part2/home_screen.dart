@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'chat_screen_manager.dart';
-import 'leaderboard_screen_manager.dart';
+import 'leaderboard_screen_manager2.dart';
 import 'mailbox_screen_manager.dart';
 import 'mypage_screen_manager.dart'; // ChatScreenManager import
 // 다른 화면들의 import가 필요하면 여기에 추가합니다.
@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0; // 현재 선택된 탭 인덱스
+  int _selectedIndex = 3; // 현재 선택된 탭 인덱스
 
   // 각 탭에 대응하는 화면들
   final List<Widget> _screens = [

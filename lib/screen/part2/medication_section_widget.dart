@@ -1,9 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smile_front/screen/part2/edit_medication_screen.dart';
 
-class MedicationSectionWidget extends StatelessWidget {
-  final List<String> medications;
+class MedicationSectionWidget extends StatefulWidget {
+  late List<String> medications;
 
-  const MedicationSectionWidget({Key? key, required this.medications}) : super(key: key);
+  MedicationSectionWidget({Key? key,
+  required this.medications}) : super(key: key);
+
+  @override
+  _MedicationSectionWidgetState createState() => _MedicationSectionWidgetState();
+
+}
+
+class _MedicationSectionWidgetState extends State<MedicationSectionWidget> {
+  late List<String> medications = [];
+
+  @override
+  void initState(){
+    super.initState();
+    getMedications();
+  }
+
+  getMedications() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    medications = _prefs.getStringList('medications')!;
+    print(medications);
+    setState(() {
+      if (medications.length == 0){
+        medications = ['복용정보없음'];
+      } else {
+        medications = medications;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +49,19 @@ class MedicationSectionWidget extends StatelessWidget {
         children: [
           Text('약 복용 정보', style: TextStyle(fontSize: 20)),
           ...medications.map((medication) => Text(medication, textAlign: TextAlign.center)).toList(),
+          ElevatedButton(
+            onPressed: (){
+              _navtoedit();
+            },
+            child: Text('수정하기'),
+          )
         ],
       ),
     );
+  }
+
+  void _navtoedit(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => EditMedicationScreen()));
   }
 }
 
