@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:smile_front/screen/part2/replymail_screen_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smile_front/screen/part2/init_mail_screen.dart';
+import 'package:smile_front/screen/part2/replymail_screen_manager2.dart';
 
 class MailboxScreenManager extends StatefulWidget {
   const MailboxScreenManager({Key? key}) : super(key: key);
@@ -14,6 +17,41 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
     "새 우편이 도착했습니다! 2",
     // ... 기타 알림
   ];
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late String myName;
+  late List<String> senderInfo = [];
+  late List<String> senderMessage = [];
+
+  @override
+  void initState(){
+    super.initState();
+    _getMyInfo();
+  }
+
+  _getMyInfo() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    myName = _prefs.getString('userInfo')!;
+    setState(() {});
+    _fetchMail();
+  }
+
+  _fetchMail() async {
+    var result = await _firestore.collection('messages')
+        .doc(myName).get();
+    Map<String, dynamic> resultData = result.data() as Map<String, dynamic>;
+    print(resultData);
+    // var keys = resultData.keys;
+    // print(keys.toList());
+    resultData.forEach((key, value){
+      senderInfo.add(key);
+      senderMessage.add(resultData[key]!.last["message"]);
+    });
+    print(senderInfo);
+    print(senderMessage);
+    setState(() {
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +63,18 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
       body: Column(
         children: [
           Expanded(
+            flex: 1,
             child: ListView.separated(
-              itemCount: notifications.length,
-              itemBuilder: (context, index) {
+              itemCount: senderInfo.length,
+              itemBuilder: (context, index){
                 return Card(
                   color: Colors.grey[300],
                   child: ListTile(
-                    title: Center(child: Text(notifications[index])),
-                    onTap: () {
+                    title: Center(child:Text(senderMessage[index])),
+                    onTap: (){
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ReplymailScreenManager()),
+                        MaterialPageRoute(builder: (context) => ReplymailScreenManager(senderInfo: senderInfo[index], senderMessage: senderMessage[index])),
                       );
                     },
                   ),
@@ -44,11 +83,32 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
               separatorBuilder: (context, index) => SizedBox(height: 10),
             ),
           ),
+          // Expanded(
+          //   child: ListView.separated(
+          //     itemCount: notifications.length,
+          //     itemBuilder: (context, index) {
+          //       return Card(
+          //         color: Colors.grey[300],
+          //         child: ListTile(
+          //           title: Center(child: Text(notifications[index])),
+          //           onTap: () {
+          //             Navigator.push(
+          //               context,
+          //               MaterialPageRoute(builder: (context) => ReplymailScreenManager()),
+          //             );
+          //           },
+          //         ),
+          //       );
+          //     },
+          //     separatorBuilder: (context, index) => SizedBox(height: 10),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
                 // 익명 상대에게 보내기 기능 구현
+                _navtoinitmail();
               },
               child: Text('익명 상대에게 보내기'),
             ),
@@ -56,5 +116,9 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
         ],
       ),
     );
+  }
+
+  void _navtoinitmail(){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => InitMailScreen()));
   }
 }
