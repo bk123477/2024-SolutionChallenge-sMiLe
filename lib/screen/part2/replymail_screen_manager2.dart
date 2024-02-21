@@ -55,44 +55,85 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('우편 답장하기'),
+          automaticallyImplyLeading: false,
+          leading: TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Back', style: TextStyle(color: Colors.black)),
+          ),
+          title: Center(
+            child: Image.asset(
+              'asset/img/smileimoge.png', // 실제 이미지 경로로 수정해주세요.
+              height: 40,
+            ),
+          ),
+          actions: [Opacity(opacity: 0.0, child: TextButton(onPressed: () {}, child: Text('Back')))],
         ),
         body: Column(
           children: [
-            Center(
-              child: Text(
-                "나에게 온 편지",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
             Expanded(
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  widget.senderMessage, // 실제 우편 내용으로 대체
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-            Center(
-              child: Text(
-                "답장 내용",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                )
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(
+                      "나에게 온 편지",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('asset/img/mail.png'),
+                          fit: BoxFit.cover
+                        )
+                      ),
+                      padding: EdgeInsets.all(16),
+                      child: Center(
+                        child: Text(
+                          widget.senderMessage, // 실제 우편 내용으로 대체
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               )
             ),
             Expanded(
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  _replyController.text, // 미리보기
-                  style: TextStyle(fontSize: 16),
-                ),
+              child: Column(
+                children: [
+                  Center(
+                      child: Text(
+                          "보낼 내용 미리보기",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )
+                      )
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('asset/img/mail.png'),
+                          fit: BoxFit.cover,
+                        )
+                      ),
+                      padding: EdgeInsets.all(16),
+                      child: Center(
+                        child: Text(
+                          _replyController.text, // 미리보기
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      )
+                    ),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -102,7 +143,13 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
                   Expanded(
                     child: TextField(
                       controller: _replyController,
-                      decoration: InputDecoration(labelText: '답장을 입력하세요'),
+                      decoration: InputDecoration(
+                          labelText: '답장을 입력하세요',
+                        border: OutlineInputBorder(),
+                        fillColor: Colors.grey[200],
+                        filled: true,
+                      ),
+                      keyboardType: TextInputType.multiline,
                       onChanged: (text){
                         setState(() {});
                       },

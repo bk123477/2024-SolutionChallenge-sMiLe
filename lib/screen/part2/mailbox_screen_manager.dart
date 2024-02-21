@@ -39,15 +39,12 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
     var result = await _firestore.collection('messages')
         .doc(myName).get();
     Map<String, dynamic> resultData = result.data() as Map<String, dynamic>;
-    print(resultData);
     // var keys = resultData.keys;
     // print(keys.toList());
     resultData.forEach((key, value){
       senderInfo.add(key);
       senderMessage.add(resultData[key]!.last["message"]);
     });
-    print(senderInfo);
-    print(senderMessage);
     setState(() {
 
     });
@@ -57,7 +54,13 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('내 우체통'),
+        title: Center(
+          child: Image.asset(
+            'asset/img/smileimoge.png',
+            height: 40,
+          )
+        ),
+        centerTitle: true,
         automaticallyImplyLeading: false,
       ),
       body: Column(
@@ -68,9 +71,15 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
               itemCount: senderInfo.length,
               itemBuilder: (context, index){
                 return Card(
-                  color: Colors.grey[300],
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.grey, width: 1),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                   child: ListTile(
-                    title: Center(child:Text(senderMessage[index])),
+                    title: Center(child:Text(senderMessage[index], style: TextStyle(
+                      color: Colors.grey
+                    ),)),
                     onTap: (){
                       Navigator.push(
                         context,
@@ -83,26 +92,6 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
               separatorBuilder: (context, index) => SizedBox(height: 10),
             ),
           ),
-          // Expanded(
-          //   child: ListView.separated(
-          //     itemCount: notifications.length,
-          //     itemBuilder: (context, index) {
-          //       return Card(
-          //         color: Colors.grey[300],
-          //         child: ListTile(
-          //           title: Center(child: Text(notifications[index])),
-          //           onTap: () {
-          //             Navigator.push(
-          //               context,
-          //               MaterialPageRoute(builder: (context) => ReplymailScreenManager()),
-          //             );
-          //           },
-          //         ),
-          //       );
-          //     },
-          //     separatorBuilder: (context, index) => SizedBox(height: 10),
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
@@ -111,6 +100,9 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
                 _navtoinitmail();
               },
               child: Text('익명 상대에게 보내기'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey,
+              ),
             ),
           ),
         ],
