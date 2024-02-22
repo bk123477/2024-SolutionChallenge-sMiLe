@@ -66,7 +66,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: '수정하고자 하는 사용자 이름을 입력하세요.',
+                    labelText: 'Please enter the name of the user you want to modify.',
                     border: OutlineInputBorder(),
 
                   ),
@@ -86,7 +86,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       editName();
                     }
                   },
-                  child: Text('수정하기'),
+                  child: Text('Modify'),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.black, backgroundColor: Colors.white, // 버튼 텍스트 색상
                     shape: RoundedRectangleBorder(

@@ -75,7 +75,7 @@ class _InitMailScreenState extends State<InitMailScreen> {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('익명 상대에게 보내기'),
+        title: Text('Send to Anonymous'),
       ),
       body: Column(
         children: [
@@ -99,7 +99,7 @@ class _InitMailScreenState extends State<InitMailScreen> {
                     child: TextField(
                       controller: _messageController,
                       maxLines: null,
-                      decoration: InputDecoration(labelText: '메시지를 입력하세요.'),
+                      decoration: InputDecoration(labelText: 'Please enter a message'),
                       onChanged: (text) {
                         setState(() {});
                       },

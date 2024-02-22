@@ -17,12 +17,12 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   List<Map<String, dynamic>> _topUsers = [];
   final List<String> missions = [
-    "하늘 보기",
-    "1부터 10까지 천천히 숫자 세기",
-    "일찍 일어나기",
-    "1분간 스트레칭",
-    "좋아하는 노래 듣기",
-    "1시간 동안 휴대폰 보지 않기"
+    "Looking at the sky",
+    "Counting slowly  from 1 to 10",
+    "Waking up early",
+    "Stretching for a minute",
+    "Listening to your favorite songs",
+    "Not looking at my cell phone for an hour",
   ];
   List<bool> isChecked = List.filled(6, false);
   List<String> datetime = List.filled(6, "");
@@ -124,7 +124,7 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
                   // child: Icon(Icons.person),
                 ),
                 SizedBox(width: 8), // CircleAvatar와 텍스트 사이 간격
-                Text('#${idx + 1}등',
+                Text('#${idx + 1}',
                     style: TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),
@@ -169,7 +169,7 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
                             _selectedViewIndex = 0;
                           }),
                           child: Text(
-                            '미션',
+                            'Mission',
                             style: TextStyle(
                               color: _selectedViewIndex == 0 ? Colors.white : Palette.bgColor,
                             ),
@@ -191,7 +191,7 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
                             _selectedViewIndex = 1;
                           }),
                           child: Text(
-                            '리더보드',
+                            'Leaderboard',
                             style: TextStyle(
                               color: _selectedViewIndex == 1 ? Colors.white : Palette.bgColor,
                             ),
@@ -251,6 +251,7 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
                 _prefs.setString('dt${index + 1}', "");
               }
             },
+            activeColor: Palette.bgColor, // 체크됐을 때의 색상을 Palette.bgColor로 설정
           ),
         );
       },
@@ -343,7 +344,7 @@ class _MyToggleWidgetState extends State<MyToggleWidget> {
                     _selectedViewIndex = 0;
                   }),
                   child: Text(
-                    '미션',
+                    'Mission',
                     style: TextStyle(
                       color: _selectedViewIndex == 0 ? Colors.white : Palette.bgColor,
                     ),
@@ -357,7 +358,7 @@ class _MyToggleWidgetState extends State<MyToggleWidget> {
                     _selectedViewIndex = 1;
                   }),
                   child: Text(
-                    '리더보드',
+                    'Leaderboard',
                     style: TextStyle(
                       color: _selectedViewIndex == 1 ? Colors.white : Palette.bgColor,
                     ),

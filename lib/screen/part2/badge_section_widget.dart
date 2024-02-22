@@ -46,7 +46,7 @@ class BadgeSectionWidget extends StatelessWidget {
                   Text(badge["description"] ?? "", style: TextStyle(
                     fontSize: 20,
                   ),),
-                  Text('총 ${missionsCount}회 달성'),
+                  Text('Achieved ${missionsCount} times in total'),
                 ],
               ),
               content: Stack(

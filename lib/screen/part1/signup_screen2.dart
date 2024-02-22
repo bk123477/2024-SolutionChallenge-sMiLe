@@ -236,7 +236,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 width: 350, // 텍스트 폼 필드의 너비 조절
                 child: TextFormField(
                   decoration: InputDecoration(
-                    labelText: '이메일을 입력하세요',
+                    labelText: 'Please enter email',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0), // 모서리를 둥글게 조절
                     ),
@@ -260,7 +260,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 width: 350, // 텍스트 폼 필드의 너비 조절
                 child: TextFormField(
                   decoration: InputDecoration(
-                    labelText: '비밀번호를 입력하세요',
+                    labelText: 'Please enter Password',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0), // 모서리를 둥글게 조절
                     ),

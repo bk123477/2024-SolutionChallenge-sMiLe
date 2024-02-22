@@ -39,22 +39,22 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Image.asset('asset/img/bottom_bar/chatbubble.png', width: 24, height: 24),
             activeIcon: Image.asset('asset/img/bottom_bar/chatbubble_bold.png', width: 24, height: 24),
-            label: '채팅',
+            label: 'Chatting',
           ),
           BottomNavigationBarItem(
             icon: Image.asset('asset/img/bottom_bar/mailbox.png', width: 24, height: 24),
             activeIcon: Image.asset('asset/img/bottom_bar/mailbox_bold.png', width: 24, height: 24),
-            label: '우체통',
+            label: 'Mailbox',
           ),
           BottomNavigationBarItem(
             icon: Image.asset('asset/img/bottom_bar/chart.png', width: 24, height: 24),
             activeIcon: Image.asset('asset/img/bottom_bar/chart_bold.png', width: 24, height: 24),
-            label: '리더보드',
+            label: 'Leaderboards',
           ),
           BottomNavigationBarItem(
             icon: Image.asset('asset/img/bottom_bar/mypage.png', width: 24, height: 24),
             activeIcon: Image.asset('asset/img/bottom_bar/mypage_bold.png', width: 24, height: 24),
-            label: '마이페이지',
+            label: 'Mypage',
           ),
         ],
         currentIndex: _selectedIndex,

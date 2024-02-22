@@ -47,12 +47,12 @@ class _MypageScreenManagerState extends State<MypageScreenManager> {
   }
 
   final List<Map<String, String>> badges = [
-    {"image": "asset/img/sky.png", "description": "하늘 보기"},
-    {"image": "asset/img/number.png", "description": "1부터 10까지 천천히 숫자세기"},
-    {"image": "asset/img/sleep.png", "description": "일찍 일어나기"},
-    {"image": "asset/img/stretching.png", "description": "1분간 스트레칭"},
-    {"image": "asset/img/sing.png", "description": "좋아하는 노래 듣기"},
-    {"image": "asset/img/smartphone.png", "description": "1시간 동안 휴대폰 보지 않기"},
+    {"image": "asset/img/sky.png", "description": "Looking at the sky",},
+    {"image": "asset/img/number.png", "description": "Counting slowly  from 1 to 10"},
+    {"image": "asset/img/sleep.png", "description": "Waking up early"},
+    {"image": "asset/img/stretching.png", "description": "Stretching for a minute"},
+    {"image": "asset/img/sing.png", "description": "Listening to your favorite songs"},
+    {"image": "asset/img/smartphone.png", "description": "Not looking at my cell phone for an hour"},
   ];
 
 

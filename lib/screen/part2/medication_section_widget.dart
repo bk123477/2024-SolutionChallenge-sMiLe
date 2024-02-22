@@ -22,7 +22,7 @@ class _MedicationSectionWidgetState extends State<MedicationSectionWidget> {
 
   getMedications() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    medications = _prefs.getStringList('medications') ?? ['복용정보없음'];
+    medications = _prefs.getStringList('medications') ?? ['No dosage information'];
     setState(() {});
   }
 

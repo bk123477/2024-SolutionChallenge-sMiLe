@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smile_front/screen/part2/init_mail_screen.dart';
 import 'package:smile_front/screen/part2/replymail_screen_manager2.dart';
 
+import '../../config/palette.dart';
+
 class MailboxScreenManager extends StatefulWidget {
   const MailboxScreenManager({Key? key}) : super(key: key);
 
@@ -13,12 +15,12 @@ class MailboxScreenManager extends StatefulWidget {
 
 class _MailboxScreenManagerState extends State<MailboxScreenManager> {
   final List<String> notifications = [
-    "새 우편이 도착했습니다! 1",
-    "새 우편이 도착했습니다! 2",
-    "새 우편이 도착했습니다! 3",
-    "새 우편이 도착했습니다! 4",
-    "새 우편이 도착했습니다! 5",
-    "새 우편이 도착했습니다! 6",
+    "New mail has arrived! 1",
+    "New mail has arrived! 2",
+    "New mail has arrived! 3",
+    "New mail has arrived! 4",
+    "New mail has arrived! 5",
+    "New mail has arrived! 6",
 
     // ... 기타 알림
   ];
@@ -102,9 +104,9 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
                 // 익명 상대에게 보내기 기능 구현
                 _navtoinitmail();
               },
-              child: Text('익명 상대에게 보내기', style: TextStyle(color: Colors.black)),
+              child: Text('Send to Anonymous', style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey, // 버튼 배경색을 회색으로 설정
+                backgroundColor: Palette.bgColor, // 버튼 배경색을 회색으로 설정
               ),
             ),
           ),

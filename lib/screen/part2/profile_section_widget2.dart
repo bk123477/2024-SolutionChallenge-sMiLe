@@ -166,8 +166,9 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
       child: Column(
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage('asset/img/smileimoge.png'),
+            backgroundImage: AssetImage('asset/img/smileimoge.png'), // 이미지 경로 확인 필요
             radius: 40,
+            backgroundColor: Colors.grey[300], // 배경색 지정
           ),
           SizedBox(height: 8),
           Text(

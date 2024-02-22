@@ -75,7 +75,7 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
                 children: [
                   Center(
                     child: Text(
-                      "나에게 온 편지",
+                      "Letter to me",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
                 children: [
                   Center(
                       child: Text(
-                          "보낼 내용 미리보기",
+                          "Content Preview",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -144,7 +144,7 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
                     child: TextField(
                       controller: _replyController,
                       decoration: InputDecoration(
-                          labelText: '답장을 입력하세요',
+                          labelText: 'Enter a reply',
                         border: OutlineInputBorder(),
                         fillColor: Colors.grey[200],
                         filled: true,
