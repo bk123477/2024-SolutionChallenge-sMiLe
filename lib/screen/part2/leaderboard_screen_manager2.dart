@@ -150,7 +150,7 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(48.0), // 토글 버튼의 높이 지정
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 8.0), // 좌우 마진 추가
+              margin: EdgeInsets.symmetric(horizontal: 32.0), // 좌우 마진 추가
               decoration: BoxDecoration(
                 color: Colors.white, // 배경색 설정
                 borderRadius: BorderRadius.circular(24.0), // 모서리를 둥글게 처리
@@ -162,55 +162,45 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: TextButton(
-                        onPressed: () => setState(() {
-                          _selectedViewIndex = 0;
-                        }),
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 2),
-                          // 좌우 마진 적용
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 8.0), // 여기에 좌우 마진 적용
+                        child: TextButton(
+                          onPressed: () => setState(() {
+                            _selectedViewIndex = 0;
+                          }),
                           child: Text(
                             '미션',
                             style: TextStyle(
-                                color: _selectedViewIndex == 0
-                                    ? Colors.white
-                                    : Palette.bgColor),
+                              color: _selectedViewIndex == 0 ? Colors.white : Palette.bgColor,
+                            ),
                           ),
-                        ),
-                        style: TextButton.styleFrom(
-                          backgroundColor: _selectedViewIndex == 0
-                              ? Palette.bgColor
-                              : Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(24.0), // 모서리 처리를 부모에서 처리
+                          style: TextButton.styleFrom(
+                            backgroundColor: _selectedViewIndex == 0 ? Palette.bgColor : Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24.0), // 모서리 처리를 부모에서 처리
+                            ),
                           ),
                         ),
                       ),
                     ),
                     Expanded(
-                      child: TextButton(
-                        onPressed: () => setState(() {
-                          _selectedViewIndex = 1;
-                        }),
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 2),
-                          // 좌우 마진 적용
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 8.0), // 여기에 좌우 마진 적용
+                        child: TextButton(
+                          onPressed: () => setState(() {
+                            _selectedViewIndex = 1;
+                          }),
                           child: Text(
                             '리더보드',
                             style: TextStyle(
-                                color: _selectedViewIndex == 1
-                                    ? Colors.white
-                                    : Palette.bgColor),
+                              color: _selectedViewIndex == 1 ? Colors.white : Palette.bgColor,
+                            ),
                           ),
-                        ),
-                        style: TextButton.styleFrom(
-                          backgroundColor: _selectedViewIndex == 1
-                              ? Palette.bgColor
-                              : Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(24.0), // 모서리 처리를 부모에서 처리
+                          style: TextButton.styleFrom(
+                            backgroundColor: _selectedViewIndex == 1 ? Palette.bgColor : Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24.0), // 모서리 처리를 부모에서 처리
+                            ),
                           ),
                         ),
                       ),
@@ -218,8 +208,10 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
                   ],
                 ),
               ),
+
             ),
-          )),
+          ),
+      ),
       body: _selectedViewIndex == 0
           ? _buildMissionsView()
           : _buildLeaderboardView(),
@@ -272,7 +264,8 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
       child: Column(
         children: [
           SizedBox(height: 10), // 리더보드 위에 20픽셀의 여백을 추가합니다.
-          Expanded( // Expanded를 사용하여 PageView가 남은 공간을 모두 차지하도록 합니다.
+          Expanded(
+            // Expanded를 사용하여 PageView가 남은 공간을 모두 차지하도록 합니다.
             child: Center(
               child: PageView.builder(
                 controller: PageController(
@@ -282,14 +275,16 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
                 ),
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10), // 각 페이지 사이의 가로 간격 추가
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    // 각 페이지 사이의 가로 간격 추가
                     decoration: BoxDecoration(
                       color: Colors.white, // 컨테이너 속 색상을 흰색으로 설정
                       borderRadius: BorderRadius.circular(20), // 모서리를 둥글게 설정
                       border: Border.all(color: Colors.black), // 검은색 테두리 추가
                     ),
                     child: SingleChildScrollView(
-                      child: leaderboards[index % leaderboards.length], // 여기서 리스트의 길이로 나눈 나머지를 사용합니다.
+                      child: leaderboards[index %
+                          leaderboards.length], // 여기서 리스트의 길이로 나눈 나머지를 사용합니다.
                     ),
                   );
                 },
@@ -300,5 +295,80 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
       ),
     );
   }
-
 }
+
+
+class MyToggleWidget extends StatefulWidget {
+  @override
+  _MyToggleWidgetState createState() => _MyToggleWidgetState();
+}
+
+class _MyToggleWidgetState extends State<MyToggleWidget> {
+  int _selectedViewIndex = 0; // 선택된 뷰의 인덱스를 추적
+
+  @override
+  Widget build(BuildContext context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(48.0), // 토글 버튼의 높이 지정
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 8.0), // 좌우 마진 추가
+        decoration: BoxDecoration(
+          color: Colors.white, // 배경색 설정
+          borderRadius: BorderRadius.circular(24.0), // 모서리를 둥글게 처리
+          border: Border.all(color: Palette.bgColor), // 경계선 색상 설정
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24.0), // 자식 위젯의 모서리를 둥글게 처리
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // AnimatedContainer를 사용하여 선택된 버튼에 따라 배경이 부드럽게 이동하도록 함
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300), // 애니메이션 지속 시간
+                curve: Curves.easeInOut, // 애니메이션 곡선
+                alignment: _selectedViewIndex == 0 ? Alignment.centerLeft : Alignment.centerRight,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.4, // 전체 너비의 약 40% 크기로 설정
+                  height: 40, // 높이는 40으로 고정
+                  decoration: BoxDecoration(
+                    color: Palette.bgColor,
+                    borderRadius: BorderRadius.circular(24.0),
+                  ),
+                ),
+              ),
+              // 미션 버튼
+              Expanded(
+                child: TextButton(
+                  onPressed: () => setState(() {
+                    _selectedViewIndex = 0;
+                  }),
+                  child: Text(
+                    '미션',
+                    style: TextStyle(
+                      color: _selectedViewIndex == 0 ? Colors.white : Palette.bgColor,
+                    ),
+                  ),
+                ),
+              ),
+              // 리더보드 버튼
+              Expanded(
+                child: TextButton(
+                  onPressed: () => setState(() {
+                    _selectedViewIndex = 1;
+                  }),
+                  child: Text(
+                    '리더보드',
+                    style: TextStyle(
+                      color: _selectedViewIndex == 1 ? Colors.white : Palette.bgColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
