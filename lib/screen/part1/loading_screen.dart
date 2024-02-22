@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:smile_front/screen/part1/init_screen.dart';
 import 'package:smile_front/config/palette.dart';
@@ -8,6 +9,14 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  var messageString = "";
+
+  void getMyDeviceToken() async {
+    final token = await FirebaseMessaging.instance.getToken();
+    print('내 디바이스 토큰: ${token}');
+  }
+
+
   @override
   void initState() {
     super.initState();
