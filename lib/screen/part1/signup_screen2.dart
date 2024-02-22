@@ -61,6 +61,7 @@ class _SignupScreenState extends State<SignupScreen> {
   late int _mission4 = 0;
   late int _mission5 = 0;
   late int _mission6 = 0;
+  late String _userImage;
   bool isInput = true; //false - result
   bool isSignIn = true; //false - SingUp
 
@@ -92,6 +93,7 @@ class _SignupScreenState extends State<SignupScreen> {
       _mission4 = userData['mission4'] ?? 0;
       _mission5 = userData['mission5'] ?? 0;
       _mission6 = userData['mission6'] ?? 0;
+      _userImage = userData['userImage'] ?? "asset/img/smileimoge.png";
 
       SharedPreferences _prefs = await SharedPreferences.getInstance();
       _prefs.setString('userInfo', email);
@@ -140,7 +142,7 @@ class _SignupScreenState extends State<SignupScreen> {
       _prefs.setInt('mission4', _mission4);
       _prefs.setInt('mission5', _mission5);
       _prefs.setInt('mission6', _mission6);
-
+      _prefs.setString('userImage', _userImage);
       flag = 1;
     } else {
       flag = 0;
