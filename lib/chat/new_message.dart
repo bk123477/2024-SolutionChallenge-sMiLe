@@ -32,7 +32,7 @@ class _NewMessageState extends State<NewMessage> {
           IconButton(
             onPressed: _sendMessage,
             icon: Icon(Icons.send),
-            color: Colors.blue,
+            color: Colors.black,
           ),
         ],
       ),

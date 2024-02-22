@@ -66,17 +66,25 @@ class _MypageScreenManagerState extends State<MypageScreenManager> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('마이페이지'),
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Image.asset(
+            'asset/img/smileimoge.png', // 앱바 중앙 이미지 경로. 실제 경로로 수정해주세요.
+            height: 40,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildSectionTitle("Badge", "더보기 >"),
+            _buildSectionTitle("Badge"),
             // BadgeSectionWidget(badges: badges, missions: missions),
             BadgeSectionWidget(),
             SizedBox(height: 20),
+            _buildSectionTitle("Profile"),
             ProfileSectionWidget(),
             SizedBox(height: 20),
+            _buildSectionTitle("Medication Information"),
             MedicationSectionWidget(medications: medications),
           ],
         ),
@@ -84,17 +92,13 @@ class _MypageScreenManagerState extends State<MypageScreenManager> {
     );
   }
 
-  Widget _buildSectionTitle(String title, String actionText) {
+  Widget _buildSectionTitle(String title) {
     return Padding(
       padding: EdgeInsets.all(16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title, style: TextStyle(fontSize: 20)),
-          TextButton(
-            onPressed: () {},
-            child: Text(actionText),
-          ),
         ],
       ),
     );

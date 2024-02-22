@@ -11,6 +11,10 @@ class Messages extends StatelessWidget {
     var chatDocs = [
       {'text': '안녕하세요!', 'isMe': true},
       {'text': '안녕하세요, 어떻게 도와드릴까요?', 'isMe': false},
+      {'text': '안녕하세요!', 'isMe': true},
+      {'text': '안녕하세요, 어떻게 도와드릴까요?', 'isMe': false},
+      {'text': '안녕하세요!', 'isMe': true},
+      {'text': '안녕하세요, 어떻게 도와드릴까요?', 'isMe': false},
     ];
 
     return ListView.builder(

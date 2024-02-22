@@ -139,47 +139,103 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
       'dt6': _dt6,
     });
     prefs.clear();
-    setState(() {
-      _userInfo = "";
-      _userName = "";
-      _userScore = 0;
-    });
+    // setState(() {
+    //   _userInfo = "";
+    //   _userName = "";
+    //   _userScore = 0;
+    // });
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container(
       width: double.infinity, // 컨테이너 너비 확장
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+            backgroundImage: AssetImage('asset/img/smileimoge.png'),
             radius: 40,
           ),
-          Text(_userInfo),
-          Text(_userName),
-          Text('${_userScore}'),
+          SizedBox(height: 8),
+          Text(
+            _userInfo,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 4),
+          Text(
+            _userName,
+            style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+          ),
+          SizedBox(height: 4),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Score: ',
+                style: TextStyle(fontSize: 14, color: Colors.black),
+              ),
+              Text(
+                '$_userScore',
+                style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          Divider(color: Colors.grey, height: 32),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  _navtoedit();
-                },
-                child: Text('Edit Profile'),
+              Expanded(
+                child: InkWell(
+                  onTap: _navtoedit,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.edit, color: Colors.black),
+                        SizedBox(width: 8),
+                        Text('Edit Profile', style: TextStyle(fontSize: 16, color: Colors.black)),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  // print(_userName);
-                  _clearUserInfo();
-                  _navtosignup();
-                },
-                child: Text('Logout'),
+              Container(
+                height: 40,
+                width: 1,
+                color: Colors.grey,
+              ),
+              Expanded(
+                child: InkWell(
+                  onTap: () async {
+                    _clearUserInfo();
+                    _navtosignup();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.logout, color: Colors.black),
+                        SizedBox(width: 8),
+                        Text('Logout', style: TextStyle(fontSize: 16, color: Colors.black)),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -187,6 +243,7 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
       ),
     );
   }
+
 
   void _navtosignup(){
     Navigator.push(context, MaterialPageRoute(builder: (context) => InitScreen()));

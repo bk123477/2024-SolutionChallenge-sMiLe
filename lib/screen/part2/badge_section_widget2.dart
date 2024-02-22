@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class BadgeSectionWidget extends StatefulWidget{
+class BadgeSectionWidget extends StatefulWidget {
   const BadgeSectionWidget({Key? key}) : super(key: key);
 
   @override
@@ -12,96 +10,111 @@ class BadgeSectionWidget extends StatefulWidget{
 
 class _BadgeSectionWidgetState extends State<BadgeSectionWidget> {
   List<String> _badges = [
-    'asset/img/sky.png',
-    'asset/img/number.png',
-    'asset/img/sleep.png',
-    'asset/img/stretching.png',
-    'asset/img/sing.png',
-    'asset/img/smartphone.png',
+    'asset/img/badge/sky_watch.png',
+    'asset/img/badge/count10.png',
+    'asset/img/badge/early_bird.png',
+    'asset/img/badge/stretching.png',
+    'asset/img/badge/music_listen.png',
+    'asset/img/badge/no_phone.png',
   ];
   final List<String> _description = [
-    "하늘 보기", "1부터 10까지 천천히 숫자 세기", "일찍 일어나기", "1분간 스트레칭", "좋아하는 노래 듣기", "1시간 동안 휴대폰 보지 않기"
+    "하늘 보기",
+    "1부터 10까지 천천히 숫자 세기",
+    "일찍 일어나기",
+    "1분간 스트레칭",
+    "좋아하는 노래 듣기",
+    "1시간 동안 휴대폰 보지 않기"
   ];
-  late int mission1;
-  late int mission2;
-  late int mission3;
-  late int mission4;
-  late int mission5;
-  late int mission6;
-
-  late List<int> _missionCount;
-
 
   @override
-  void initState() {
-    super.initState();
-    _getUserInfo();
-  }
-
-  Future<int?> _getUserInfo() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    print(_prefs.getInt('mission1'));
-  }
-
-  @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(15),
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
-      child: Center(
-        child: Wrap(
-          spacing: 16,
-          runSpacing: 16,
-          alignment: WrapAlignment.center,
-          children: [
-            ...List.generate(_badges.length, (index){
-              return _BadgeButton(context: context, index: index);
-            }),
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+        itemCount: _badges.length,
+        itemBuilder: (context, index) {
+          return _BadgeButton(context: context, index: index);
+        },
+      ),
+    );
+  }
+
+  Widget _BadgeButton({required BuildContext context, required int index}) {
+    return InkWell(
+      onTap: () async {
+        SharedPreferences _prefs = await SharedPreferences.getInstance();
+        String key = 'mission${index + 1}';
+        int mission = _prefs.getInt(key) ?? 0;
+        showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return Dialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)), // Rounded corners for the dialog
+              child: Column(
+                mainAxisSize: MainAxisSize.min, // Makes the dialog height fit the content
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)), // Rounded corners at the top
+                    child: Image.asset(_badges[index], fit: BoxFit.cover),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          _description[index],
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), // Emphasize the title
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          '총 ${mission}회 달성',
+                          style: TextStyle(fontSize: 16), // Slightly de-emphasized but still readable
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: Offset(0, 3),
+            ),
           ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Image.asset(_badges[index], fit: BoxFit.cover),
         ),
       ),
     );
   }
-
-  Widget _BadgeButton({required BuildContext context, required int index}){
-    return ElevatedButton(
-      onPressed: () async {
-        SharedPreferences _prefs = await SharedPreferences.getInstance();
-        String key = 'mission'+'${index+1}';
-        print(_prefs.getInt(key));
-        int mission = _prefs.getInt(key)!;
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext){
-            return AlertDialog(
-              title: Column(
-                children: [
-                  Text(_description[index] ?? "", style: TextStyle(
-                    fontSize: 20,
-                  ),),
-                  Text('총 ${mission}회 달성'),
-                ],
-              ),
-              content: Stack(
-                children: <Widget>[
-                  Image.asset(_badges[index]!, fit: BoxFit.contain)
-                ],
-              ),
-            );
-          }
-        );
-      },
-      child: Image.asset(_badges[index]!, width: 70, height: 70, fit: BoxFit.contain),
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      ),
-    );
-  }
-
-
-
 }

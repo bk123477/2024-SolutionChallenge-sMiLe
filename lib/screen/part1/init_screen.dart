@@ -46,6 +46,11 @@ class _InitScreenState extends State<InitScreen> {
   late String _dt6;
   int flag = 0;
 
+  @override
+  void initState(){
+    super.initState();
+  }
+
   getUser() async {
     final DateTime now = DateTime.now();
     final String nowStr = DateFormat('yy-MM-dd').format(now);
