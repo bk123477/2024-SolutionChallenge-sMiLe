@@ -10,7 +10,7 @@ class Messages extends StatelessWidget {
     //TODO: 채팅 상위 위젯에서 전달받기
     var chatDocs = [
       {'text': '안녕하세요!', 'isMe': true},
-      {'text': '안녕하세요, 어떻게 도와드릴까요?', 'isMe': false},
+      {'text': '안녕하세요, 어떻게 도와드릴까요?안녕하세요, 어떻게 도와드릴까요?안녕하세요, 어떻게 도와드릴까요?안녕하세요, 어떻게 도와드릴까요?', 'isMe': false},
       {'text': '안녕하세요!', 'isMe': true},
       {'text': '안녕하세요, 어떻게 도와드릴까요?', 'isMe': false},
       {'text': '안녕하세요!', 'isMe': true},

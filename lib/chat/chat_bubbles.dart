@@ -9,7 +9,7 @@ class ChatBubbles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget bubble = Container(
-      margin: EdgeInsets.only(top: isMe ? 10 : 4, bottom: 10, left: isMe ? 8 : 48, right: isMe ? 8 : 0), // 상대방 메시지일 경우 왼쪽 여백 조정
+      margin: EdgeInsets.only(top: isMe ? 10 : 4, bottom: 10, left: isMe ? 8 : 48, right: isMe ? 8 : 20), // 상대방 메시지일 경우 왼쪽 여백 조정
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       decoration: BoxDecoration(
         color: Colors.white, // 모든 버블의 배경색을 흰색으로 통일
