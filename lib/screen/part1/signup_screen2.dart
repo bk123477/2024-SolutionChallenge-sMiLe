@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smile_front/screen/part2/home_screen.dart';
+import '../../config/palette.dart';
 import '/firebase_options.dart';
 import 'package:intl/intl.dart';
 
@@ -67,7 +68,8 @@ class _SignupScreenState extends State<SignupScreen> {
   getUser() async {
     final DateTime now = DateTime.now();
     final String nowStr = DateFormat('yy-MM-dd').format(now);
-    DocumentSnapshot _userDoc = await FirebaseFirestore.instance.collection('users').doc(email).get();
+    DocumentSnapshot _userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(email).get();
     if (_userDoc.exists) {
       Map<String, dynamic> userData = _userDoc.data() as Map<String, dynamic>;
       email = userData['userInfo'];
@@ -98,32 +100,32 @@ class _SignupScreenState extends State<SignupScreen> {
       _prefs.setString('userName', name);
       _prefs.setInt('userScore', userScore);
       _prefs.setStringList('medications', medications);
-      if (nowStr == _dt1){
+      if (nowStr == _dt1) {
         _prefs.setBool('complete1', _complete1);
       } else {
         _prefs.setBool('complete1', false);
       }
-      if (nowStr == _dt2){
+      if (nowStr == _dt2) {
         _prefs.setBool('complete2', _complete2);
       } else {
         _prefs.setBool('complete2', false);
       }
-      if (nowStr == _dt3){
+      if (nowStr == _dt3) {
         _prefs.setBool('complete3', _complete3);
       } else {
         _prefs.setBool('complete3', false);
       }
-      if (nowStr == _dt4){
+      if (nowStr == _dt4) {
         _prefs.setBool('complete4', _complete4);
       } else {
         _prefs.setBool('complete4', false);
       }
-      if (nowStr == _dt5){
+      if (nowStr == _dt5) {
         _prefs.setBool('complete5', _complete5);
       } else {
         _prefs.setBool('complete5', false);
       }
-      if (nowStr == _dt6){
+      if (nowStr == _dt6) {
         _prefs.setBool('complete6', _complete6);
       } else {
         _prefs.setBool('complete6', false);
@@ -182,7 +184,7 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
-  signUp() async{
+  signUp() async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
@@ -208,149 +210,210 @@ class _SignupScreenState extends State<SignupScreen> {
       print(e.toString());
     }
   }
-  
-  List<Widget> getInputWidget() {
-    return[
-      Text(
-        isSignIn ? "SignIn" : "SignUp",
-        style: TextStyle(
-          color: Colors.indigo,
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
+
+  Widget getInputWidget() {
+    return Center(
+      child: Column(children: [
+        Container(
+
+          margin: EdgeInsets.symmetric(vertical: 30), // 위아래로 마진 추가
+          child: Text(
+            isSignIn ? "SignIn" : "SignUp",
+            style: TextStyle(
+              color: Colors.indigo,
+              fontWeight: FontWeight.bold,
+              fontSize: 24, // 글씨 크기 증가
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
-        textAlign: TextAlign.center,
-      ),
-      Form(
-        key: _formKey,
-        child: Column(
+        Form(
+          key: _formKey,
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-          children:[
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: '이메일을 입력하세요',
-                border: OutlineInputBorder(),
+            children: [
+              Container(
+                width: 350, // 텍스트 폼 필드의 너비 조절
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: '이메일을 입력하세요',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0), // 모서리를 둥글게 조절
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20), // 입력 칸 패딩 조절
+                  ),
+                  validator: (value) {
+                    if (value?.isEmpty ?? false) {
+                      return 'Please enter email';
+                    }
+                    return null;
+                  },
+                  onSaved: (String? value) {
+                    email = value ?? "";
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                ),
               ),
-              validator: (value) {
-                if (value?.isEmpty ?? false) {
-                  return 'Please enter email';
-                }
-                return null;
-              },
-              onSaved: (String? value) {
-                email = value ?? "";
-              },
-              keyboardType: TextInputType.emailAddress,
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: '비밀번호를 입력하세요',
-                border: OutlineInputBorder(),
+              SizedBox(height: 10),
+              Container(
+                width: 350, // 텍스트 폼 필드의 너비 조절
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: '비밀번호를 입력하세요',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0), // 모서리를 둥글게 조절
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20), // 입력 칸 패딩 조절
+                  ),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value?.isEmpty ?? false) {
+                      return 'Please enter password';
+                    }
+                    return null;
+                  },
+                  onSaved: (String? value) {
+                    password = value ?? "";
+                  },
+                ),
               ),
-              obscureText: true,
-              validator: (value) {
-                if (value?.isEmpty ?? false) {
-                  return 'Please enter password';
-                }
-                return null;
-              },
-              onSaved: (String? value) {
-                password = value ?? "";
-              },
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(onPressed: (){
-              if (_formKey.currentState?.validate() ?? false) {
-                _formKey.currentState?.save();
-                // print('email: $email, password : $password');
-                if (isSignIn) {
-                  signIn();
-                  getUser();
-                  print(flag);
-                } else {
-                  signUp();
-                }
-              }
-            }, child: Text(isSignIn ? "SignIn" : "SignUp")),
-            RichText(
-              textAlign: TextAlign.right,
-              text: TextSpan(
-                text: 'Go ',
-                style: Theme.of(context).textTheme.bodyText1,
-                children: <TextSpan>[
-                  TextSpan(
-                      text: isSignIn ? "SignUp" : "SignIn",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          setState(() {
-                            isSignIn = !isSignIn;
-                          });
-                        }),
-                ],
+
+              SizedBox(height: 20), // 버튼과의 거리 조절
+              Container(
+                width: 200.0, // 버튼을 좌우로 길게 만듦
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      _formKey.currentState?.save();
+                      // 로그인 또는 회원가입 로직
+                      if (isSignIn) {
+                        signIn();
+                        getUser();
+                        print(flag);
+                      } else {
+                        signUp();
+                      }
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white, backgroundColor: Palette.bgColor, // 텍스트 색상 흰색
+                  ),
+                  child: Text(isSignIn ? "SignIn" : "SignUp"),
+                ),
               ),
-            ),
-          ]
-        )
-      )
-    ];
+              SizedBox(height: 20), // "Go SignUp"/"Go SignIn"과의 거리 조절
+              RichText(
+                textAlign: TextAlign.right,
+                text: TextSpan(
+                  text: 'Go ',
+                  style: TextStyle(color: Palette.bgColor), // 기본 텍스트 검은색으로 변경
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: isSignIn ? "SignUp" : "SignIn",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            setState(() {
+                              isSignIn = !isSignIn;
+                            });
+                          }),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
   }
 
-  List<Widget> getResultWidget() {
+  Widget getResultWidget() {
     String resultEmail = FirebaseAuth.instance.currentUser!.email!;
-    return [
-      Text(
-        isSignIn
-            ? "$resultEmail 로 로그인 하셨습니다.!"
-            : "$resultEmail 로 회원가입 하셨습니다.! 이메일 인증을 거쳐야 로그인이 가능합니다.",
-        style: TextStyle(
-          color: Colors.black54,
-          fontWeight: FontWeight.bold,
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center, // Column 내부의 위젯을 중앙에 위치
+        children: [
+          Padding( // 텍스트에 패딩 추가
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              isSignIn
+                  ? "You are signed in with $resultEmail!"
+                  : "You have signed up with $resultEmail! Please verify your email to log in.",
+              textAlign: TextAlign.center, // 텍스트를 중앙 정렬
+              style: TextStyle(
+                color: Colors.black54,
+                fontWeight: FontWeight.bold,
+                fontSize: 16, // 폰트 크기 조정
+              ),
+            ),
+          ),
+          SizedBox(height: 20), // 텍스트와 버튼 사이의 간격
+          ElevatedButton(
+            onPressed: () async {
+              if (isSignIn && flag == 0) {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.clear();
+                prefs.setString('userInfo', resultEmail);
+                prefs.setString('userName', resultEmail.split('@')[0]);
+                print(prefs.get('userInfo'));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
+                );
+              } else if (isSignIn && flag == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
+                );
+              } else {
+                setState(() {
+                  isInput = true;
+                  isSignIn = true;
+                });
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, backgroundColor: Palette.bgColor, // 버튼 텍스트 색상을 흰색으로 설정
+              textStyle: TextStyle(
+                fontSize: 16, // 버튼 내 텍스트 크기
+              ),
+            ),
+            child: Text(isSignIn ? "Start" : "Sign In"),
+          ),
+        ],
       ),
-      ElevatedButton(
-          onPressed: () async {
-            if (isSignIn && flag == 0) {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.clear();
-              prefs.setString('userInfo', resultEmail);
-              prefs.setString('userName', resultEmail.split('@')[0]);
-              print(prefs.get('userInfo'));
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
-              );
-            } else if (isSignIn && flag == 1) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-              );
-            }
-            else {
-              setState(() {
-                isInput = true;
-                isSignIn = true;
-              });
-            }
-          },
-          child: Text(isSignIn ? "시작하기" : "SignIn")),
-    ];
+    );
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("sMiLe"),
-      ),
-      body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: isInput ? getInputWidget() : getResultWidget()),
-    );
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Back', style: TextStyle(color: Colors.black)),
+          ),
+          title: Center(
+            child: Image.asset(
+              'asset/img/smileimoge.png', // 실제 이미지 경로로 수정해주세요.
+              height: 40,
+            ),
+          ),
+          actions: [
+            Opacity(
+                opacity: 0.0,
+                child: TextButton(onPressed: () {}, child: Text('Back')))
+          ],
+        ),
+        body: isInput ? getInputWidget() : getResultWidget());
   }
 
   // @override
@@ -431,8 +494,8 @@ class _SignupScreenState extends State<SignupScreen> {
   void _signup() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
+      MaterialPageRoute(
+          builder: (context) => DepressionDiagnosisSelectionScreen()),
     );
   }
-
 }

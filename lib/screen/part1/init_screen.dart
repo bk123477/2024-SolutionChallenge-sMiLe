@@ -146,35 +146,35 @@ class _InitScreenState extends State<InitScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Palette.bgColor,
-        actions: <Widget>[
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return ScaleTransition(
-                scale: animation,
-                child: child,
-              );
-            },
-            child: _isSignInVisible
-                ? TextButton(
-              key: ValueKey<String>('Sign In'),
-              onPressed: () => setState(() {
-                _isSignInVisible = false;
-              }),
-              child: Text('Sign In', style: TextStyle(color: Colors.white)),
-            )
-                : TextButton(
-              key: ValueKey<String>('Sign Up'),
-              onPressed: () => setState(() {
-                _isSignInVisible = true;
-              }),
-              child: Text('Sign Up', style: TextStyle(color: Colors.white)),
-            ),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Palette.bgColor,
+      //   actions: <Widget>[
+      //     AnimatedSwitcher(
+      //       duration: const Duration(milliseconds: 300),
+      //       transitionBuilder: (Widget child, Animation<double> animation) {
+      //         return ScaleTransition(
+      //           scale: animation,
+      //           child: child,
+      //         );
+      //       },
+      //       child: _isSignInVisible
+      //           ? TextButton(
+      //         key: ValueKey<String>('Sign In'),
+      //         onPressed: () => setState(() {
+      //           _isSignInVisible = false;
+      //         }),
+      //         child: Text('Sign In', style: TextStyle(color: Colors.white)),
+      //       )
+      //           : TextButton(
+      //         key: ValueKey<String>('Sign Up'),
+      //         onPressed: () => setState(() {
+      //           _isSignInVisible = true;
+      //         }),
+      //         child: Text('Sign Up', style: TextStyle(color: Colors.white)),
+      //       ),
+      //     ),
+      //   ],
+      // ),
       body: Container(
         color: Palette.bgColor,
         child: SafeArea(
