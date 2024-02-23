@@ -44,6 +44,7 @@ class _InitScreenState extends State<InitScreen> {
   late String _dt4;
   late String _dt5;
   late String _dt6;
+  late String _userImage;
   int flag = 0;
 
   @override
@@ -79,6 +80,7 @@ class _InitScreenState extends State<InitScreen> {
       _dt4 = userData['dt4'] ?? "";
       _dt5 = userData['dt5'] ?? "";
       _dt6 = userData['dt6'] ?? "";
+      _userImage = userData['userImage'] ?? "asset/img/smileimoge.png";
 
       print(email);
       SharedPreferences _prefs = await SharedPreferences.getInstance();
@@ -136,6 +138,7 @@ class _InitScreenState extends State<InitScreen> {
       _prefs.setInt('mission4', _mission4);
       _prefs.setInt('mission5', _mission5);
       _prefs.setInt('mission6', _mission6);
+      _prefs.setString('userImage', _userImage);
       flag = 1;
     } else {
       flag = 0;

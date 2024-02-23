@@ -34,6 +34,7 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
   late String _dt4;
   late String _dt5;
   late String _dt6;
+  late String _userImage = "asset/img/smileimoge.png";
 
   @override
   void initState(){
@@ -50,7 +51,7 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
       _userName = prefs.getString('userName') ?? 'No User Info';
     });
     setState(() {
-      _userScore = prefs.getInt('userScore')!;
+      _userScore = prefs.getInt('userScore')?? 0;
     });
     setState(() {
       _medications = prefs.getStringList('medications') ?? ['hi'];
@@ -109,6 +110,9 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
     setState(() {
       _dt6 = prefs.getString('dt6') ?? "";
     });
+    setState(() {
+      _userImage = prefs.getString('userImage') ?? "asset/img/smileimoge.png";
+    });
   }
 
   _clearUserInfo() async {
@@ -137,17 +141,27 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
       'dt4': _dt4,
       'dt5': _dt5,
       'dt6': _dt6,
+      'userImage': _userImage,
     });
     prefs.clear();
-    // setState(() {
-    //   _userInfo = "";
-    //   _userName = "";
-    //   _userScore = 0;
-    // });
+    setState(() {
+      _userInfo = "";
+      _userName = "";
+      _userScore = 0;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    _getUserInfo();
+    Widget imageWidget;
+
+    if (_userImage == null || _userImage == "asset/img/smileimoge.png"){
+      imageWidget = Image.asset(_userImage, fit: BoxFit.cover,);
+    } else {
+      imageWidget = Image.network(_userImage, fit: BoxFit.cover);
+    }
+
     return Container(
       width: double.infinity, // 컨테이너 너비 확장
       padding: EdgeInsets.all(16),
@@ -165,10 +179,16 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
       ),
       child: Column(
         children: [
-          CircleAvatar(
-            backgroundImage: AssetImage('asset/img/smileimoge.png'), // 이미지 경로 확인 필요
-            radius: 40,
-            backgroundColor: Colors.grey[300], // 배경색 지정
+          // CircleAvatar(
+          //   backgroundImage: AssetImage('asset/img/smileimoge.png'),
+          //   radius: 40,
+          // ),
+          Container(
+            width: 100,
+            height: 100,
+            child: ClipOval(
+              child: imageWidget,
+            ),
           ),
           SizedBox(height: 8),
           Text(
