@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../config/palette.dart';
 import '../part2/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +23,7 @@ class _ResultScreenWidgetState extends State<ResultScreenWidget> {
   _getUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _userInfo = prefs.getString('email')!.split('@')[0] ?? 'No User Info';
+      _userInfo = prefs.getString('email')?.split('@')[0] ?? 'User';
     });
     setState(() {
       _userScore = prefs.getInt('userScore')!;
@@ -33,44 +34,68 @@ class _ResultScreenWidgetState extends State<ResultScreenWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('우울증 진단 결과'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text(
-              '${_userInfo}님의 진단 결과 입니다.', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            // Text('새싹단계 (1)', style: TextStyle(fontSize: 18)),
-            // SizedBox(height: 10),
-            // Text('떡잎단계 (2)', style: TextStyle(fontSize: 18)),
-            // SizedBox(height: 10),
-            // Text('성장단계 (3)', style: TextStyle(fontSize: 18)),
-            // SizedBox(height: 30),
-            Text(
-              _userScore < 5 ? '${_userScore} Minimal Depression' :
-                  _userScore < 10 ? '${_userScore} Mild Depression' :
-                      _userScore < 15 ? '${_userScore} Moderate Depression' :
-                          _userScore < 20 ? '${_userScore} Moderately Severe Depression' :
-                              '${_userScore} Severe Depression',
-              style: TextStyle(fontSize: 15),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // HomeScreen으로 이동하고, 뒤로 가기로 결과 화면으로 돌아오지 못하게 함
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
-              },
-              child: Text('확인'),
-            ),
-          ],
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Image.asset(
+            'asset/img/smileimoge.png', // 앱바 중앙 이미지 경로. 실제 경로로 수정해주세요.
+            height: 40,
+          ),
         ),
       ),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                '$_userInfo\'s Diagnosis Result', // 영어로 변경
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Palette.bgColor, // 텍스트 컬러 변경
+                ),
+              ),
+              SizedBox(height: 20), // 텍스트 사이의 간격 추가
+              Text(
+
+                _userScore < 5 ? 'Minimal Depression ($_userScore)' :
+                _userScore < 10 ? 'Mild Depression ($_userScore)' :
+                _userScore < 15 ? 'Moderate Depression ($_userScore)' :
+                _userScore < 20 ? 'Moderately Severe Depression ($_userScore)' :
+                'Severe Depression ($_userScore)',
+                style: TextStyle(
+                  fontSize: 20, // 폰트 사이즈 증가
+                  color: Colors.blueGrey, // 텍스트 컬러 변경
+                ),
+                textAlign: TextAlign.center, // 텍스트 정렬
+              ),
+              SizedBox(height: 30), // 버튼 전 간격 추가
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Palette.bgColor, // 버튼 내 텍스트 컬러 변경
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10), // 버튼 패딩 조절
+                  textStyle: TextStyle(
+                    fontSize: 18, // 버튼 텍스트 사이즈
+                    fontWeight: FontWeight.bold, // 버튼 텍스트 굵기
+                  ),
+                  shape: RoundedRectangleBorder( // 버튼 모서리 둥글게
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: Text('Confirm'),
+              ),
+            ],
+          ),
+        ),
+      ),
+
     );
   }
 }
