@@ -62,6 +62,7 @@ class _DepressionChecklistScreenState extends State<DepressionChecklistScreen> {
               itemCount: symptoms.length,
               itemBuilder: (context, index) {
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start, // 여기에 추가
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.all(8.0),
