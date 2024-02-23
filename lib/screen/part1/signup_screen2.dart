@@ -371,7 +371,7 @@ class _SignupScreenState extends State<SignupScreen> {
               } else if (isSignIn && flag == 1) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
                 );
               } else {
                 setState(() {
