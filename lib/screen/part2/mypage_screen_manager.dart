@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'badge_section_widget.dart';
-import 'profile_section_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smile_front/screen/part2/badge_section_widget2.dart';
+import 'profile_section_widget2.dart';
 import 'medication_section_widget.dart';
 
 class MypageScreenManager extends StatefulWidget {
@@ -11,53 +12,79 @@ class MypageScreenManager extends StatefulWidget {
 }
 
 class _MypageScreenManagerState extends State<MypageScreenManager> {
+  late String userInfo;
+  late String userName;
+  late int userScore;
+  late List<String> medications = [];
+  late int mission1;
+  late int mission2;
+  late int mission3;
+  late int mission4;
+  late int mission5;
+  late int mission6;
+  late List<int> missions = [];
+
+  getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userInfo = prefs.getString('userInfo') ?? 'No user info';
+    userName = prefs.getString('userName')!;
+    userScore = prefs.getInt('userScore')!;
+    medications = prefs.getStringList('medications') ?? ['복용 정보 없음'];
+    mission1 = prefs.getInt('mission1')!;
+    mission2 = prefs.getInt('mission2')!;
+    mission3 = prefs.getInt('mission3')!;
+    mission4 = prefs.getInt('mission4')!;
+    mission5 = prefs.getInt('mission5')!;
+    mission6 = prefs.getInt('mission6')!;
+    missions.add(mission1);
+    missions.add(mission2);
+    missions.add(mission3);
+    missions.add(mission4);
+    missions.add(mission5);
+    missions.add(mission6);
+    // print(userInfo);
+    // print(missions);
+  }
+
   final List<Map<String, String>> badges = [
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 1"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 2"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 3"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 4"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 5"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 6"},
-    {"image": "https://via.placeholder.com/150", "description": "뱃지 7"},
+    {"image": "asset/img/sky.png", "description": "Looking at the sky",},
+    {"image": "asset/img/number.png", "description": "Counting slowly  from 1 to 10"},
+    {"image": "asset/img/sleep.png", "description": "Waking up early"},
+    {"image": "asset/img/stretching.png", "description": "Stretching for a minute"},
+    {"image": "asset/img/sing.png", "description": "Listening to your favorite songs"},
+    {"image": "asset/img/smartphone.png", "description": "Not looking at my cell phone for an hour"},
   ];
 
-  final List<String> medications = [
-    "아침: 아스피린 100mg",
-    "점심: 비타민 C 500mg",
-    "저녁: 오메가3 1000mg",
-    "자기 전: 멜라토닌 5mg",
-    "주 3회: 철분 보충제 10mg",
-    "필요시: 파라세타몰 500mg",
-    "매일: 칼슘 200mg + 비타민 D",
-    "매일: 프로바이오틱스 1캡슐",
-    "아침: 항알레르기제 10mg",
-    "저녁: 당뇨병 치료제 500mg",
-    "아침: 고혈압 약 50mg",
-    "저녁: 콜레스테롤 관리제 20mg",
-    "주 2회: 비타민 B12 주사",
-    "필요시: 항산화제 보충제",
-    "매일: 마그네슘 400mg",
-    "주 1회: 철분 주사 100mg",
-    "아침: 갑상선 호르몬제 25mcg",
-    "점심: 피부 보호제 500mg",
-    "저녁: 소염제 100mg",
-    "자기 전: 수면 유도제 50mg"
-  ];
+
+  @override
+  void initState(){
+    super.initState();
+    getUserInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('마이페이지'),
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Image.asset(
+            'asset/img/smileimoge.png', // 앱바 중앙 이미지 경로. 실제 경로로 수정해주세요.
+            height: 40,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildSectionTitle("Badge", "더보기 >"),
-            BadgeSectionWidget(badges: badges),
+            _buildSectionTitle("Badge"),
+            // BadgeSectionWidget(badges: badges, missions: missions),
+            BadgeSectionWidget(),
             SizedBox(height: 20),
+            _buildSectionTitle("Profile"),
             ProfileSectionWidget(),
             SizedBox(height: 20),
+            _buildSectionTitle("Medication Information"),
             MedicationSectionWidget(medications: medications),
           ],
         ),
@@ -65,17 +92,13 @@ class _MypageScreenManagerState extends State<MypageScreenManager> {
     );
   }
 
-  Widget _buildSectionTitle(String title, String actionText) {
+  Widget _buildSectionTitle(String title) {
     return Padding(
       padding: EdgeInsets.all(16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title, style: TextStyle(fontSize: 20)),
-          TextButton(
-            onPressed: () {},
-            child: Text(actionText),
-          ),
         ],
       ),
     );

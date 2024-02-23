@@ -26,13 +26,13 @@ class _NewMessageState extends State<NewMessage> {
           Expanded(
             child: TextField(
               controller: _controller,
-              decoration: InputDecoration(labelText: '메시지를 입력하세요...'),
+              decoration: InputDecoration(labelText: 'Enter Message...'),
             ),
           ),
           IconButton(
             onPressed: _sendMessage,
             icon: Icon(Icons.send),
-            color: Colors.blue,
+            color: Colors.black,
           ),
         ],
       ),
