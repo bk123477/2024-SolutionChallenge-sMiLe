@@ -98,6 +98,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _userImage = "asset/img/smileimoge.png";
       _prefs.setString('userImage', _userImage);
     });
+    _image = null;
   }
 
   editName() async {
@@ -258,13 +259,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       border: OutlineInputBorder(),
 
                     ),
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Please Enter Name';
-                      }
-                      return null;
-                    },
-                    onSaved: (value) => _userName = value ?? "",
+                    // validator: (value) {
+                    //   if (value?.isEmpty ?? true) {
+                    //     return 'Please Enter Name';
+                    //   }
+                    //   return null;
+                    // },
+                    onSaved: (value) => _userName = value ?? _userName,
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
