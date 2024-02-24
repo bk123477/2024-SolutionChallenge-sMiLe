@@ -15,6 +15,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   late String _userName;
+  late String _beforeName;
   late String _userInfo;
   final _formKey = GlobalKey<FormState>();
   XFile? _image;
@@ -89,6 +90,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     setState(() {
       _userInfo = _prefs.getString('userInfo')!;
+      _userName = _prefs.getString('userName')!;
+      _beforeName = _userName!;
       _userImage = _prefs.getString('userImage')!;
     });
   }
@@ -103,7 +106,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   editName() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
+    if (_userName == "" || _userName == null){
+      _userName = _beforeName;
+    }
     _prefs.setString('userName', _userName);
+
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     DocumentReference docRef = firestore.collection('users').doc(_userInfo);
     await docRef.update({
@@ -265,7 +272,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     //   }
                     //   return null;
                     // },
-                    onSaved: (value) => _userName = value ?? _userName,
+                    // onSaved: (value) => _userName = value ?? ,
+                    onSaved: (value){
+                      if (value == null){
+                        value = _userName;
+                      }
+                      _userName = value;
+                    },
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
