@@ -75,6 +75,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   editName() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     _prefs.setString('userName', _userName);
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentReference docRef = firestore.collection('users').doc(_userInfo);
+    await docRef.update({
+      'userName': _userName,
+    }).then((_){
+      print("Document successfully updated!");
+    });
     Navigator.pop(context); // 저장 후 이전 화면으로 돌아가기
   }
 

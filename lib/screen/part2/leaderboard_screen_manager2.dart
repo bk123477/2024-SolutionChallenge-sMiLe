@@ -16,6 +16,7 @@ class LeaderboardScreenManager extends StatefulWidget {
 class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   List<Map<String, dynamic>> _topUsers = [];
+  late List<String> userImages = [];
   final List<String> missions = [
     "하늘 보기",
     "1부터 10까지 천천히 숫자 세기",
@@ -31,6 +32,11 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
   @override
   void initState() {
     super.initState();
+    _fetchUsers();
+    _getUserMission();
+  }
+
+  _fetchUsers() async {
     leaderboards.clear();
     for (int i = 1; i <= 6; i++) {
       _fetchTopUsersForMission(i).then((_) {
@@ -39,7 +45,6 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
         });
       });
     }
-    _getUserMission();
   }
 
   void _getUserMission() async {
@@ -75,6 +80,7 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
       (index) => Center(
             child: Text("${index + 1}"),
           ));
+
 
   Widget _createLeaderboardWidget(
       List<Map<String, dynamic>> topUsers, int missionNumber) {
@@ -112,17 +118,43 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
         ...topUsers.asMap().entries.map((entry) {
           int idx = entry.key;
           Map user = entry.value;
+          Widget _buildPhotoArea(){
+            if (user['userImage'] == 'asset/img/smileimoge.png'){
+              return Container(
+                width: 50, height: 50,
+                child: ClipOval(
+                  child: Image.asset('asset/img/smileimoge.png', fit: BoxFit.cover,),
+                ),
+              );
+            } else if (user['userImage'] != null) {
+              return Container(
+                width: 50, height: 50,
+                child: ClipOval(
+                  child: Image.network(user['userImage'], fit: BoxFit.cover),
+                ),
+              );
+            } else {
+              return Container(
+                width: 50, height: 50,
+                child: ClipOval(
+                  child: Image.asset('asset/img/smileimoge.png', fit: BoxFit.cover),
+                ),
+              );
+            }
+          }
+
           return ListTile(
             leading: Row(
               mainAxisSize: MainAxisSize.min, // Row의 크기를 내용물에 맞춤
               children: [
-                CircleAvatar(
-                  // 여기에 적절한 이미지가 있다면 넣어주세요, 없다면 기본 아이콘을 사용
-                  backgroundImage: AssetImage(
-                      'asset/img/smileimoge.png'), // 실제 이미지 경로로 변경해주세요.
-                  // 이미지가 없을 때 주석을 해제하고 기본 아이콘을 사용할 수 있습니다.
-                  // child: Icon(Icons.person),
-                ),
+                // CircleAvatar(
+                //   // 여기에 적절한 이미지가 있다면 넣어주세요, 없다면 기본 아이콘을 사용
+                //   backgroundImage: AssetImage(
+                //       'asset/img/smileimoge.png'), // 실제 이미지 경로로 변경해주세요.
+                //   // 이미지가 없을 때 주석을 해제하고 기본 아이콘을 사용할 수 있습니다.
+                //   // child: Icon(Icons.person),
+                // ),
+                _buildPhotoArea(),
                 SizedBox(width: 8), // CircleAvatar와 텍스트 사이 간격
                 Text('#${idx + 1}등',
                     style: TextStyle(fontWeight: FontWeight.bold)),
