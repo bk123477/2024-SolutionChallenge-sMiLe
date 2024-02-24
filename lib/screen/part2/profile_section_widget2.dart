@@ -267,7 +267,10 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
 
 
   void _navtosignup(){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => InitScreen()));
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => InitScreen()));
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => InitScreen())
+    );
   }
 
   void _navtoedit(){
