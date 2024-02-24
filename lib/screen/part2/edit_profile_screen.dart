@@ -19,7 +19,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   XFile? _image;
   final ImagePicker picker = ImagePicker();
-  late String _userImage;
+  late String _userImage = "asset/img/smileimoge.png";
 
   Future<String?> uploadImage(XFile image, String userEmail) async {
     try {
@@ -29,6 +29,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       // Firebase Storage에 업로드
       Reference ref = FirebaseStorage.instance.ref().child('userImages/$fileName');
       UploadTask uploadTask = ref.putFile(File(image.path));
+
+      // 업로드 완료까지 기다림
+      final TaskSnapshot snapshot = await uploadTask;
+      // 업로드한 파일의 URL 가져오기
+      final String downloadUrl = await snapshot.ref.getDownloadURL();
+      _userImage = downloadUrl;
+      print(_userImage);
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      DocumentReference docRef = firestore.collection('users').doc(_userInfo);
+      await docRef.update({
+        'userImage': _userImage,
+      }).then((_){
+        print("Document successfully updated!");
+      });
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      _prefs.setString('userImage', downloadUrl);
+      return downloadUrl;
+    } catch (e) {
+      print(e);
+      return "";
+    }
+  }
+  Future<String?> uploadBasicImage(String src, String userEmail) async {
+    try{
+      String fileName = "${_userInfo}.jpg";
+      Reference ref = FirebaseStorage.instance.ref().child('userImages/$fileName');
+      UploadTask uploadTask = ref.putFile(File('asset/img/smileimoge.png'));
 
       // 업로드 완료까지 기다림
       final TaskSnapshot snapshot = await uploadTask;
@@ -62,6 +89,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     setState(() {
       _userInfo = _prefs.getString('userInfo')!;
+      _userImage = _prefs.getString('userImage')!;
     });
   }
   setDefaultImage() async {
@@ -79,6 +107,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     DocumentReference docRef = firestore.collection('users').doc(_userInfo);
     await docRef.update({
       'userName': _userName,
+      'userImage': _userImage,
     }).then((_){
       print("Document successfully updated!");
     });
@@ -95,23 +124,57 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Widget _buildPhotoArea(){
-    if (_image != null) {
+    // if (_image != null) {
+    //   return Container(
+    //     width: 100, height: 100,
+    //     child: ClipOval(
+    //       child: Image.file(File(_image!.path)),
+    //     ),
+    //   );
+    // } else {
+    //   return Container(
+    //     width: 100, height: 100,
+    //     child: ClipOval(
+    //       child: Image.asset(
+    //         'asset/img/smileimoge.png',
+    //       ),
+    //     ),
+    //   );
+    // }
+    if (_image != null ){
       return Container(
         width: 100, height: 100,
         child: ClipOval(
-          child: Image.file(File(_image!.path)),
+          child: Image.file(File(_image!.path), fit: BoxFit.cover,),
         ),
       );
     } else {
-      return Container(
-        width: 100, height: 100,
-        child: ClipOval(
-          child: Image.asset(
-            'asset/img/smileimoge.png',
+      if (_userImage == null) {
+        return Container(
+          width: 100, height: 100,
+          child: ClipOval(
+            child: Image.asset('asset/img/smileimoge.png', fit: BoxFit.cover,),
           ),
-        ),
-      );
-    }
+        );
+      } else {
+        if (_userImage == 'asset/img/smileimoge.png'){
+          return Container(
+            width: 100, height: 100,
+            child: ClipOval(
+              child: Image.asset(_userImage, fit: BoxFit.cover,),
+            ),
+          );
+        }
+        else {
+          return Container(
+            width: 100, height: 100,
+            child: ClipOval(
+              child: Image.network(_userImage, fit: BoxFit.cover,),
+            ),
+          );
+        }
+      }
+     }
   }
 
   @override
@@ -209,7 +272,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       if (_formKey.currentState?.validate() ?? false) {
                         _formKey.currentState?.save();
                         editName();
-                        uploadImage(_image!, _userInfo);
+                        if (_image == null) {
+                          uploadBasicImage(_userImage, _userInfo);
+                        } else {
+                          uploadImage(_image!, _userInfo);
+                        }
                       }
                     },
                     child: Text('수정하기'),
