@@ -1,7 +1,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smile_front/screen/part1/init_screen.dart';
 import 'package:smile_front/config/palette.dart';
+import 'package:smile_front/screen/part2/home_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -9,11 +11,16 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  var messageString = "";
 
-  void getMyDeviceToken() async {
-    final token = await FirebaseMessaging.instance.getToken();
-    print('내 디바이스 토큰: ${token}');
+  Future<void> _checkLoginStatus() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    String? _userInfo = _prefs.getString('userInfo');
+
+    if(_userInfo != null){
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => InitScreen()));
+    }
   }
 
 
@@ -21,7 +28,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 2), () {
-      Navigator.pushReplacement(context, _createRoute());
+      _checkLoginStatus();
     });
   }
 
