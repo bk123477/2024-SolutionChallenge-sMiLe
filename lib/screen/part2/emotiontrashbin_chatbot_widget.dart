@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../chat/message.dart';  // 실제 경로에 맞게 수정해주세요.
-import '../../chat/new_message.dart';  // 실제 경로에 맞게 수정해주세요.
+import '../../chat/message_send.dart';  // 실제 경로에 맞게 수정해주세요.
+import '../../chat/message_show.dart';  // 실제 경로에 맞게 수정해주세요.
 
 class EmotiontrashbinChatbotWidget extends StatefulWidget {
   final VoidCallback onToggleScreen;
