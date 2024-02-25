@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'chat_screen_manager.dart';
-import 'leaderboard_screen_manager2.dart';
+import 'leaderboard_screen_manager.dart';
 import 'mailbox_screen_manager.dart';
 import 'mypage_screen_manager.dart';
 

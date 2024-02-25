@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'chatbot_consent_screen.dart';
-import 'depression_checklist_screen2.dart';
+import 'depression_checklist_screen.dart';
 
 class DepressionDiagnosisSelectionScreen extends StatefulWidget {
   const DepressionDiagnosisSelectionScreen({Key? key}) : super(key: key);

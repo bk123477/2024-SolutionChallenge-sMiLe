@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smile_front/screen/part2/badge_section_widget2.dart';
-import 'profile_section_widget2.dart';
+import 'package:smile_front/screen/part2/badge_section_widget.dart';
+import 'profile_section_widget.dart';
 import 'medication_section_widget.dart';
 
 class MypageScreenManager extends StatefulWidget {

@@ -24,7 +24,7 @@ class _DepressionChatbotScreenState extends State<DepressionChatbotScreen> {
               // 결과 페이지로 넘어가는 로직
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ResultScreen()), // 가상의 결과 스크린
+                MaterialPageRoute(builder: (context) => ResultScreenWidget()), // 가상의 결과 스크린
               );
             },
           ),

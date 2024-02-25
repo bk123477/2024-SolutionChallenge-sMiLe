@@ -1,174 +1,336 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
-// 유저 데이터를 담을 클래스 정의
-class UserData {
-  final String name;
-  final String profileImageUrl;
-  final int wins;
-
-  UserData(this.name, this.profileImageUrl, this.wins);
-}
+import '../../config/palette.dart';
 
 class LeaderboardScreenManager extends StatefulWidget {
+  const LeaderboardScreenManager({Key? key}) : super(key: key);
+
   @override
-  _LeaderboardScreenManagerState createState() => _LeaderboardScreenManagerState();
+  _LeaderboardScreenManagerState createState() =>
+      _LeaderboardScreenManagerState();
 }
 
 class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
-  final List<String> tasks = ["task1", "task2", "task3"];
-
-  // 각 종목별 유저 데이터 리스트
-  final Map<String, List<UserData>> taskUsers = {
-    "task1": [
-      UserData("유저1", "asset/img/smileimoge.png", 10),
-      UserData("유저2", "asset/img/smileimoge.png", 9),
-      UserData("유저3", "asset/img/smileimoge.png", 5),
-      UserData("유저4", "asset/img/smileimoge.png", 3),
-      UserData("유저5", "asset/img/smileimoge.png", 1),
-      // 추가 유저 데이터...
-    ],
-    "task2": [
-      UserData("유저1", "asset/img/smileimoge.png", 10),
-      UserData("유저2", "asset/img/smileimoge.png", 9),
-      UserData("유저3", "asset/img/smileimoge.png", 7),
-      // 추가 유저 데이터...
-    ],
-    "task3": [
-      UserData("유저1", "asset/img/smileimoge.png", 6),
-      UserData("유저3", "asset/img/smileimoge.png", 5),
-      // 추가 유저 데이터...
-    ],
-  };
-
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  List<Map<String, dynamic>> _topUsers = [];
+  late List<String> userImages = [];
+  final List<String> missions = [
+    "하늘 보기",
+    "1부터 10까지 천천히 숫자 세기",
+    "일찍 일어나기",
+    "1분간 스트레칭",
+    "좋아하는 노래 듣기",
+    "1시간 동안 휴대폰 보지 않기"
+  ];
+  List<bool> isChecked = List.filled(6, false);
+  List<String> datetime = List.filled(6, "");
+  int _selectedViewIndex = 0; // 0 for missions, 1 for leaderboard
 
   @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _fetchUsers();
+    _getUserMission();
+  }
+
+  _fetchUsers() async {
+    leaderboards.clear();
+    for (int i = 1; i <= 6; i++) {
+      _fetchTopUsersForMission(i).then((_) {
+        setState(() {
+          leaderboards.add(_createLeaderboardWidget(_topUsers, i));
+        });
+      });
+    }
+  }
+
+  void _getUserMission() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    isChecked[0] = _prefs.getBool('complete1') ?? false;
+    isChecked[1] = _prefs.getBool('complete2') ?? false;
+    isChecked[2] = _prefs.getBool('complete3') ?? false;
+    isChecked[3] = _prefs.getBool('complete4') ?? false;
+    isChecked[4] = _prefs.getBool('complete5') ?? false;
+    isChecked[5] = _prefs.getBool('complete6') ?? false;
+  }
+
+  _fetchTopUsersForMission(int missionNumber) async {
+    String missionField = 'mission${missionNumber}';
+    var snapshot = await _firestore
+        .collection('users')
+        .orderBy(missionField, descending: true)
+        .limit(5)
+        .get();
+
+    List<Map<String, dynamic>> topUsers = [];
+    snapshot.docs.forEach((doc) {
+      Map<String, dynamic> userData = doc.data() as Map<String, dynamic>;
+      topUsers.add(userData);
+    });
+    setState(() {
+      _topUsers = topUsers;
+    });
+  }
+
+  final List<Widget> leaderboards = List.generate(
+      6,
+          (index) => Center(
+        child: Text("${index + 1}"),
+      ));
+
+
+  Widget _createLeaderboardWidget(
+      List<Map<String, dynamic>> topUsers, int missionNumber) {
+    String missionName = missions[missionNumber - 1];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: '$missionName',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black, // 모던하고 심플한 느낌을 위한 색상 선택
+                  ),
+                ),
+                TextSpan(
+                  text: '\nTop Users',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black54, // 부드러운 대조를 위해 더 어두운 색상 사용
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Divider(color: Colors.grey[300]),
+        ...topUsers.asMap().entries.map((entry) {
+          int idx = entry.key;
+          Map user = entry.value;
+          Widget _buildPhotoArea(){
+            if (user['userImage'] == 'asset/img/smileimoge.png'){
+              return Container(
+                width: 50, height: 50,
+                child: ClipOval(
+                  child: Image.asset('asset/img/smileimoge.png', fit: BoxFit.cover,),
+                ),
+              );
+            } else if (user['userImage'] != null) {
+              return Container(
+                width: 50, height: 50,
+                child: ClipOval(
+                  child: Image.network(user['userImage'], fit: BoxFit.cover),
+                ),
+              );
+            } else {
+              return Container(
+                width: 50, height: 50,
+                child: ClipOval(
+                  child: Image.asset('asset/img/smileimoge.png', fit: BoxFit.cover),
+                ),
+              );
+            }
+          }
+
+          return ListTile(
+            leading: Row(
+              mainAxisSize: MainAxisSize.min, // Row의 크기를 내용물에 맞춤
+              children: [
+                // CircleAvatar(
+                //   // 여기에 적절한 이미지가 있다면 넣어주세요, 없다면 기본 아이콘을 사용
+                //   backgroundImage: AssetImage(
+                //       'asset/img/smileimoge.png'), // 실제 이미지 경로로 변경해주세요.
+                //   // 이미지가 없을 때 주석을 해제하고 기본 아이콘을 사용할 수 있습니다.
+                //   // child: Icon(Icons.person),
+                // ),
+                _buildPhotoArea(),
+                SizedBox(width: 8), // CircleAvatar와 텍스트 사이 간격
+                Text('#${idx + 1}등',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+              ],
+            ),
+            title: Text(user['userName']),
+            subtitle: Text('Score: ${user['mission${missionNumber}']}회'),
+          );
+        }).toList(),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Center(
-          child: Image.asset(
-            'asset/img/smileimoge.png',
-            height: 40,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (page) {
-                setState(() {
-                  _currentPage = page;
-                });
-              },
-              children: tasks.map((task) => _buildTaskPage(task)).toList(),
+          automaticallyImplyLeading: false,
+          title: Center(
+            child: Image.asset(
+              'asset/img/smileimoge.png',
+              height: 40,
             ),
           ),
-          _buildPageIndicator(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTaskPage(String task) {
-    List<UserData> users = taskUsers[task] ?? [];
-    return Center( // 박스를 중앙에 위치시키기 위해 Center 위젯 사용
-      child: Container(
-        width: double.infinity, // 화면 너비에 맞춤
-        margin: EdgeInsets.all(16.0),
-        padding: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: Colors.white, // 배경색을 흰색으로 설정
-          border: Border.all(color: Colors.grey, width: 2), // 검은색 테두리 추가
-          borderRadius: BorderRadius.circular(10), // 모서리를 둥글게 처리
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min, // 내용물에 맞게 높이 조절
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(48.0), // 토글 버튼의 높이 지정
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 8.0), // 좌우 마진 추가
               decoration: BoxDecoration(
-                color: Colors.yellow.shade100,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(8),
-                ), // 상단 모서리만 둥글게 처리
+                color: Colors.white, // 배경색 설정
+                borderRadius: BorderRadius.circular(24.0), // 모서리를 둥글게 처리
+                border: Border.all(color: Palette.bgColor), // 경계선 색상 설정
               ),
-              padding: EdgeInsets.all(16.0),
-              alignment: Alignment.center,
-              child: Text(task, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24.0), // 자식 위젯의 모서리를 둥글게 처리
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () => setState(() {
+                          _selectedViewIndex = 0;
+                        }),
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 2),
+                          // 좌우 마진 적용
+                          child: Text(
+                            '미션',
+                            style: TextStyle(
+                                color: _selectedViewIndex == 0
+                                    ? Colors.white
+                                    : Palette.bgColor),
+                          ),
+                        ),
+                        style: TextButton.styleFrom(
+                          backgroundColor: _selectedViewIndex == 0
+                              ? Palette.bgColor
+                              : Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.circular(24.0), // 모서리 처리를 부모에서 처리
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () => setState(() {
+                          _selectedViewIndex = 1;
+                        }),
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 2),
+                          // 좌우 마진 적용
+                          child: Text(
+                            '리더보드',
+                            style: TextStyle(
+                                color: _selectedViewIndex == 1
+                                    ? Colors.white
+                                    : Palette.bgColor),
+                          ),
+                        ),
+                        style: TextButton.styleFrom(
+                          backgroundColor: _selectedViewIndex == 1
+                              ? Palette.bgColor
+                              : Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.circular(24.0), // 모서리 처리를 부모에서 처리
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            ListView.builder(
-              shrinkWrap: true, // ListView가 차지하는 공간을 내용물 크기에 맞게 조절
-              physics: NeverScrollableScrollPhysics(), // 스크롤 동작 비활성화
-              itemCount: min(users.length, 5), // 최대 5명까지만 표시
-              itemBuilder: (context, index) {
-                UserData user = users[index];
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage(user.profileImageUrl),
-                  ),
-                  title: Text(user.name, style: TextStyle(fontSize: 16)),
-                  trailing: Text('${user.wins}회 승리', style: TextStyle(color: Colors.grey)),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+          )),
+      body: _selectedViewIndex == 0
+          ? _buildMissionsView()
+          : _buildLeaderboardView(),
     );
   }
 
+  Widget _buildMissionsView() {
+    return ListView.builder(
+      itemCount: missions.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(
+            '${index + 1}. ${missions[index]}',
+            style: TextStyle(
+              decoration: isChecked[index]
+                  ? TextDecoration.lineThrough
+                  : TextDecoration.none,
+            ),
+          ),
+          trailing: Checkbox(
+            value: isChecked[index],
+            onChanged: (value) async {
+              SharedPreferences _prefs = await SharedPreferences.getInstance();
+              setState(() {
+                isChecked[index] = value!;
+                DateTime now = DateTime.now();
+                datetime[index] = DateFormat('yy-MM-dd').format(now);
+              });
+              _prefs.setBool('complete${index + 1}', value!);
+              if (value) {
+                int tmp = _prefs.getInt('mission${index + 1}') ?? 0;
+                _prefs.setInt('mission${index + 1}', tmp + 1);
+                _prefs.setString('dt${index + 1}', datetime[index]);
+              } else {
+                int tmp = _prefs.getInt('mission${index + 1}') ?? 0;
+                _prefs.setInt('mission${index + 1}', tmp - 1);
+                _prefs.setString('dt${index + 1}', "");
+              }
+            },
+          ),
+        );
+      },
+    );
+  }
 
-  Widget _buildPageIndicator() {
-    String prevTask = _currentPage > 0 ? tasks[_currentPage - 1] : '';
-    String nextTask = _currentPage < tasks.length - 1 ? tasks[_currentPage + 1] : '';
-
+  Widget _buildLeaderboardView() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          _currentPage > 0
-              ? TextButton(
-            onPressed: () {
-              _pageController.animateToPage(_currentPage - 1, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-            },
-            child: Row(
-              children: [
-                Icon(Icons.arrow_back_ios, size: 16),
-                Text(prevTask),
-              ],
+      width: double.infinity,
+      color: Colors.white, // 배경색 설정
+      child: Column(
+        children: [
+          SizedBox(height: 10), // 리더보드 위에 20픽셀의 여백을 추가합니다.
+          Expanded( // Expanded를 사용하여 PageView가 남은 공간을 모두 차지하도록 합니다.
+            child: Center(
+              child: PageView.builder(
+                controller: PageController(
+                  viewportFraction: 0.8, // 각 페이지가 화면 너비의 80%만 차지하도록 설정
+                  keepPage: true, // 페이지 간격 유지
+                  initialPage: 60,
+                ),
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10), // 각 페이지 사이의 가로 간격 추가
+                    decoration: BoxDecoration(
+                      color: Colors.white, // 컨테이너 속 색상을 흰색으로 설정
+                      borderRadius: BorderRadius.circular(20), // 모서리를 둥글게 설정
+                      border: Border.all(color: Colors.black), // 검은색 테두리 추가
+                    ),
+                    child: SingleChildScrollView(
+                      child: leaderboards[index % leaderboards.length], // 여기서 리스트의 길이로 나눈 나머지를 사용합니다.
+                    ),
+                  );
+                },
+              ),
             ),
-          )
-              : SizedBox(width: 48), // Placeholder to maintain alignment
-          _currentPage < tasks.length - 1
-              ? TextButton(
-            onPressed: () {
-              _pageController.animateToPage(_currentPage + 1, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-            },
-            child: Row(
-              children: [
-                Text(nextTask),
-                Icon(Icons.arrow_forward_ios, size: 16),
-              ],
-            ),
-          )
-              : SizedBox(width: 48), // Placeholder to maintain alignment
+          ),
         ],
       ),
     );
   }
+
 }

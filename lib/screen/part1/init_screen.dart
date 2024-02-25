@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smile_front/screen/part1/depression_diagnosis_selection_screen.dart';
-import 'package:smile_front/screen/part1/signin_screen.dart';
-import 'package:smile_front/screen/part1/signup_screen2.dart';
+import 'package:smile_front/screen/part1/signup_screen.dart';
 import 'package:smile_front/config/palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -82,20 +81,12 @@ class _InitScreenState extends State<InitScreen> {
       _dt6 = userData['dt6'] ?? "";
       _userImage = userData['userImage'] ?? "asset/img/smileimoge.png";
 
-      print(email);
       SharedPreferences _prefs = await SharedPreferences.getInstance();
       _prefs.setString('userInfo', email);
       _prefs.setString('userName', name);
       _prefs.setInt('userScore', userScore);
       _prefs.setStringList('medications', medications);
-      // _prefs.setBool('complete1', _complete1);
-      // _prefs.setBool('complete2', _complete2);
-      // _prefs.setBool('complete3', _complete3);
-      // _prefs.setBool('complete4', _complete4);
-      // _prefs.setBool('complete5', _complete5);
-      // _prefs.setBool('complete6', _complete6);
-      print(nowStr);
-      print(_dt1);
+
       if (nowStr == _dt1){
         _prefs.setBool('complete1', _complete1);
       } else {
@@ -151,32 +142,6 @@ class _InitScreenState extends State<InitScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Palette.bgColor,
-        actions: <Widget>[
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return ScaleTransition(
-                scale: animation,
-                child: child,
-              );
-            },
-            child: _isSignInVisible
-                ? TextButton(
-              key: ValueKey<String>('Sign In'),
-              onPressed: () => setState(() {
-                _isSignInVisible = false;
-              }),
-              child: Text('Sign In', style: TextStyle(color: Colors.white)),
-            )
-                : TextButton(
-              key: ValueKey<String>('Sign Up'),
-              onPressed: () => setState(() {
-                _isSignInVisible = true;
-              }),
-              child: Text('Sign Up', style: TextStyle(color: Colors.white)),
-            ),
-          ),
-        ],
       ),
       body: Container(
         color: Palette.bgColor,
@@ -205,7 +170,6 @@ class _InitScreenState extends State<InitScreen> {
                       if (googleUser != null) {
                         email = googleUser.email;
                         name = email.split('@')[0];
-                        print('name = ${googleUser.email}');
                         await getUser();
                         if (flag == 1){
                           Navigator.push(
@@ -239,7 +203,7 @@ class _InitScreenState extends State<InitScreen> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40.0),
                   child: ElevatedButton(
-                    onPressed: _isSignInVisible ? _navtosignup : _navtosignin,
+                    onPressed: _isSignInVisible ? _navtosignup : _navtosignup,
                     child: Text(_isSignInVisible ? 'Sign In' : 'Sign In'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
@@ -257,10 +221,6 @@ class _InitScreenState extends State<InitScreen> {
         ),
       ),
     );
-  }
-
-  void _navtosignin() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => SigninScreen()));
   }
 
   void _navtosignup() {
