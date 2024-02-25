@@ -76,7 +76,7 @@ class _NewMessageState extends State<NewMessage> {
           Expanded(
             child: TextField(
               controller: _controller,
-              decoration: InputDecoration(labelText: '메시지를 입력하세요...'),
+              decoration: InputDecoration(labelText: 'Type Message...'),
             ),
           ),
           IconButton(

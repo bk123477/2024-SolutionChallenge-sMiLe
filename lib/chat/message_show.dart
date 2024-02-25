@@ -35,7 +35,7 @@ class _MessagesState extends State<Messages> {
                 itemBuilder: (context, index) => ChatBubbles(
                   chatDocsList[index]['chat'] as String,
                   chatDocsList[index]['isUser'] as bool,
-                  //chatDocsList[index]['time'] as Timestamp
+                  chatDocsList[index]['time'] as Timestamp,
                 ),
               );
             },
