@@ -30,29 +30,27 @@ class _MypageScreenManagerState extends State<MypageScreenManager> {
     userName = prefs.getString('userName')!;
     userScore = prefs.getInt('userScore')!;
     medications = prefs.getStringList('medications') ?? ['복용 정보 없음'];
-    mission1 = prefs.getInt('mission1')!;
-    mission2 = prefs.getInt('mission2')!;
-    mission3 = prefs.getInt('mission3')!;
-    mission4 = prefs.getInt('mission4')!;
-    mission5 = prefs.getInt('mission5')!;
-    mission6 = prefs.getInt('mission6')!;
+    mission1 = prefs.getInt('mission1') ?? 0;
+    mission2 = prefs.getInt('mission2') ?? 0;
+    mission3 = prefs.getInt('mission3') ?? 0;
+    mission4 = prefs.getInt('mission4') ?? 0;
+    mission5 = prefs.getInt('mission5') ?? 0;
+    mission6 = prefs.getInt('mission6') ?? 0;
     missions.add(mission1);
     missions.add(mission2);
     missions.add(mission3);
     missions.add(mission4);
     missions.add(mission5);
     missions.add(mission6);
-    // print(userInfo);
-    // print(missions);
   }
 
   final List<Map<String, String>> badges = [
-    {"image": "asset/img/sky.png", "description": "하늘 보기"},
-    {"image": "asset/img/number.png", "description": "1부터 10까지 천천히 숫자세기"},
-    {"image": "asset/img/sleep.png", "description": "일찍 일어나기"},
-    {"image": "asset/img/stretching.png", "description": "1분간 스트레칭"},
-    {"image": "asset/img/sing.png", "description": "좋아하는 노래 듣기"},
-    {"image": "asset/img/smartphone.png", "description": "1시간 동안 휴대폰 보지 않기"},
+    {"image": "asset/img/sky.png", "description": "Looking at the sky",},
+    {"image": "asset/img/number.png", "description": "Counting slowly  from 1 to 10"},
+    {"image": "asset/img/sleep.png", "description": "Waking up early"},
+    {"image": "asset/img/stretching.png", "description": "Stretching for a minute"},
+    {"image": "asset/img/sing.png", "description": "Listening to your favorite songs"},
+    {"image": "asset/img/smartphone.png", "description": "Not looking at my cell phone for an hour"},
   ];
 
 
@@ -69,7 +67,7 @@ class _MypageScreenManagerState extends State<MypageScreenManager> {
         automaticallyImplyLeading: false,
         title: Center(
           child: Image.asset(
-            'asset/img/smileimoge.png', // 앱바 중앙 이미지 경로. 실제 경로로 수정해주세요.
+            'asset/img/smileimoge.png',
             height: 40,
           ),
         ),
@@ -78,7 +76,6 @@ class _MypageScreenManagerState extends State<MypageScreenManager> {
         child: Column(
           children: [
             _buildSectionTitle("Badge"),
-            // BadgeSectionWidget(badges: badges, missions: missions),
             BadgeSectionWidget(),
             SizedBox(height: 20),
             _buildSectionTitle("Profile"),

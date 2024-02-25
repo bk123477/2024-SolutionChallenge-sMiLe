@@ -22,7 +22,7 @@ class _EditMedicationScreenState extends State<EditMedicationScreen> {
 
   void _getUserInfo() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _medications = _prefs.getStringList('medications') ?? ['복용정보없음'];
+    _medications = _prefs.getStringList('medications') ?? ['No Medications Info'];
     setState(() {
       _medications = _medications;
     });
@@ -60,7 +60,7 @@ class _EditMedicationScreenState extends State<EditMedicationScreen> {
         ),
         title: Center(
           child: Image.asset(
-            'asset/img/smileimoge.png', // 실제 이미지 경로로 수정해주세요.
+            'asset/img/smileimoge.png',
             height: 40,
           ),
         ),
@@ -71,20 +71,20 @@ class _EditMedicationScreenState extends State<EditMedicationScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              controller: _controller, // 사용할 TextEditingController 인스턴스
+              controller: _controller,
               decoration: InputDecoration(
                 labelText: 'Enter medication',
-                labelStyle: TextStyle(fontSize: 16, color: Colors.blueGrey), // 라벨 스타일 조정
+                labelStyle: TextStyle(fontSize: 16, color: Colors.blueGrey),
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.add, color: Colors.black), // 아이콘 색상 추가
-                  onPressed: _addMedications, // 항목 추가 함수
+                  icon: Icon(Icons.add, color: Colors.black),
+                  onPressed: _addMedications,
                 ),
-                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12), // 입력칸 내부 패딩 조정
-                border: OutlineInputBorder( // 텍스트 필드의 테두리 스타일
+                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0),
                   borderSide: BorderSide(color: Colors.blueGrey),
                 ),
-                focusedBorder: OutlineInputBorder( // 포커스 됐을 때 테두리 스타일
+                focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0),
                   borderSide: BorderSide(color: Colors.black),
                 ),
@@ -97,7 +97,7 @@ class _EditMedicationScreenState extends State<EditMedicationScreen> {
             child: ListView.builder(
               itemCount: _medications.length,
               itemBuilder: (context, index) {
-                return Card( // 각 항목을 Card 위젯으로 감싸기
+                return Card(
                   margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                   child: ListTile(
                     title: Text(_medications[index], style: TextStyle(color: Colors.blueGrey)),
@@ -110,29 +110,27 @@ class _EditMedicationScreenState extends State<EditMedicationScreen> {
               },
             ),
           ),
-          Padding( // 버튼에도 padding 추가
+          Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: ElevatedButton(
               onPressed: () {
-                _submit(); // 수정 데이터 제출 함수
-                _navtomypage(); // 다음 페이지로 네비게이션 함수
+                _submit();
+                _navtomypage();
               },
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.black, // 버튼 텍스트 색상
-                backgroundColor: Colors.white, // 버튼 배경색
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0), // 버튼 모서리 둥글게
-                  side: BorderSide(color: Colors.black), // 테두리 색깔을 검은색으로 설정
+                  borderRadius: BorderRadius.circular(20.0),
+                  side: BorderSide(color: Colors.black),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10), // 버튼 내부 패딩
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               ),
               child: Text('Submit Changes'),
             ),
-
           ),
         ],
       )
-
     );
   }
 

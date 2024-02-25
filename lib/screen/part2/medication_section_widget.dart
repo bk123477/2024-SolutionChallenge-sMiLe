@@ -22,7 +22,7 @@ class _MedicationSectionWidgetState extends State<MedicationSectionWidget> {
 
   getMedications() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    medications = _prefs.getStringList('medications') ?? ['복용정보없음'];
+    medications = _prefs.getStringList('medications') ?? ['No dosage information'];
     setState(() {});
   }
 
@@ -54,15 +54,15 @@ class _MedicationSectionWidgetState extends State<MedicationSectionWidget> {
           SizedBox(height: 20),
           Divider(color: Colors.grey, height: 20),
           InkWell(
-            onTap: _navtoedit, // onTap 메소드에 _navtoedit 함수 연결
+            onTap: _navtoedit,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisSize: MainAxisSize.min, // Row 내용에 맞게 크기 조정
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.edit, color: Colors.black), // 연필 아이콘 유지
-                  SizedBox(width: 8), // 아이콘과 텍스트 사이 간격
-                  Text('edit medications', style: TextStyle(fontSize: 16, color: Colors.black)), // 텍스트 스타일 조정
+                  Icon(Icons.edit, color: Colors.black),
+                  SizedBox(width: 8),
+                  Text('edit medications', style: TextStyle(fontSize: 16, color: Colors.black)),
                 ],
               ),
             ),

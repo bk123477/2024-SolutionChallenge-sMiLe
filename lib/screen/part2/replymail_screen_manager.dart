@@ -50,7 +50,6 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // 다른 곳을 탭하면 키보드 숨김
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -62,7 +61,7 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
           ),
           title: Center(
             child: Image.asset(
-              'asset/img/smileimoge.png', // 실제 이미지 경로로 수정해주세요.
+              'asset/img/smileimoge.png',
               height: 40,
             ),
           ),
@@ -75,7 +74,7 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
                   children: [
                     Center(
                       child: Text(
-                        "나에게 온 편지",
+                        "Letter to me",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -94,7 +93,7 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
                         padding: EdgeInsets.all(16),
                         child: Center(
                           child: Text(
-                            widget.senderMessage, // 실제 우편 내용으로 대체
+                            widget.senderMessage,
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
@@ -108,7 +107,7 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
                 children: [
                   Center(
                       child: Text(
-                          "보낼 내용 미리보기",
+                          "Content Preview",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -127,7 +126,7 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
                         padding: EdgeInsets.all(16),
                         child: Center(
                           child: Text(
-                            _replyController.text, // 미리보기
+                            _replyController.text,
                             style: TextStyle(fontSize: 16),
                           ),
                         )
@@ -144,7 +143,7 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
                       child: TextField(
                         controller: _replyController,
                         decoration: InputDecoration(
-                          labelText: '답장을 입력하세요',
+                          labelText: 'Enter a reply',
                           border: OutlineInputBorder(),
                           fillColor: Colors.grey[200],
                           filled: true,
@@ -153,7 +152,7 @@ class _ReplymailScreenManagerState extends State<ReplymailScreenManager> {
                         onChanged: (text){
                           setState(() {});
                         },
-                        maxLines: null, // 여러 줄 입력 가능
+                        maxLines: null,
                       ),
                     ),
                     IconButton(

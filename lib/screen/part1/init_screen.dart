@@ -199,7 +199,7 @@ class _InitScreenState extends State<InitScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10), // 여기에 추가된 공간
+                SizedBox(height: 10),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 40.0),
                   child: ElevatedButton(
@@ -207,14 +207,14 @@ class _InitScreenState extends State<InitScreen> {
                     child: Text(_isSignInVisible ? 'Sign In' : 'Sign In'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      backgroundColor: Colors.transparent, // 글자색을 흰색으로, 배경을 투명으로 설정
-                      side: BorderSide(color: Colors.white, width: 2), // 테두리 색상 및 두께 설정
-                      minimumSize: Size(double.infinity, 50), // 버튼 크기 설정
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), // 모서리 둥글게 설정
+                      backgroundColor: Colors.transparent,
+                      side: BorderSide(color: Colors.white, width: 2),
+                      minimumSize: Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
                   ),
                 ),
-                SizedBox(height: 30), // 여기에 추가된 공간
+                SizedBox(height: 30),
               ],
             ),
           ),

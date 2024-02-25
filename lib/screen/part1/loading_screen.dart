@@ -48,7 +48,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Palette.bgColor, // 배경색 설정
+        color: Palette.bgColor,
         width: double.infinity,
         height: double.infinity,
         child: Column(
@@ -57,13 +57,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(top: 120.0, left: 40.0, right: 40.0),
-                child: Image.asset('asset/img/smileimoge.png', fit: BoxFit.contain), // 상단 이미지
+                child: Image.asset('asset/img/smileimoge.png', fit: BoxFit.contain),
               ),
             ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(bottom: 120.0, left: 40.0, right: 40.0),
-                child: Image.asset('asset/img/smilelettering.png', fit: BoxFit.contain), // 하단 이미지
+                child: Image.asset('asset/img/smilelettering.png', fit: BoxFit.contain),
               ),
             ),
           ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../config/palette.dart';
 import '../part2/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +23,7 @@ class _ResultScreenWidgetState extends State<ResultScreenWidget> {
   _getUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _userInfo = prefs.getString('email')!.split('@')[0] ?? 'No User Info';
+      _userInfo = prefs.getString('email')?.split('@')[0] ?? 'User';
     });
     setState(() {
       _userScore = prefs.getInt('userScore')!;
@@ -33,37 +34,68 @@ class _ResultScreenWidgetState extends State<ResultScreenWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('우울증 진단 결과'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text(
-              '${_userInfo}님의 진단 결과 입니다.', style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              _userScore < 5 ? '${_userScore} Minimal Depression' :
-              _userScore < 10 ? '${_userScore} Mild Depression' :
-              _userScore < 15 ? '${_userScore} Moderate Depression' :
-              _userScore < 20 ? '${_userScore} Moderately Severe Depression' :
-              '${_userScore} Severe Depression',
-              style: TextStyle(fontSize: 15),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
-              },
-              child: Text('확인'),
-            ),
-          ],
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Image.asset(
+            'asset/img/smileimoge.png',
+            height: 40,
+          ),
         ),
       ),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                '$_userInfo\'s Diagnosis Result',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Palette.bgColor,
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+
+                _userScore < 5 ? 'Minimal Depression ($_userScore)' :
+                _userScore < 10 ? 'Mild Depression ($_userScore)' :
+                _userScore < 15 ? 'Moderate Depression ($_userScore)' :
+                _userScore < 20 ? 'Moderately Severe Depression ($_userScore)' :
+                'Severe Depression ($_userScore)',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.blueGrey,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 30),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Palette.bgColor,
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  textStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: Text('Confirm'),
+              ),
+            ],
+          ),
+        ),
+      ),
+
     );
   }
 }

@@ -46,22 +46,13 @@ class _InitMailScreenState extends State<InitMailScreen> {
     List<Map<String, dynamic>> allUsersInfo = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
     userInfoList = allUsersInfo.map((user) => user['userInfo'].toString()).toList();
     _selectRandomUser();
-    print(selectedUser);
   }
 
   void _sendMessage() async {
     final message = _messageController.text;
-    print(myName);
     DateTime now = DateTime.now();
 
     if (message.isNotEmpty) {
-      // FirebaseFirestore.instance.collection('messages').doc(myName).set({
-      //   selectedUser: FieldValue.arrayUnion([{
-      //     'sender': myName,
-      //     'message': message,
-      //     'datetime': now,
-      //   }]),
-      // }, SetOptions(merge: true));
       FirebaseFirestore.instance.collection('messages').doc(selectedUser).set({
         '${myName}': FieldValue.arrayUnion([{
           'message': message,
@@ -75,7 +66,7 @@ class _InitMailScreenState extends State<InitMailScreen> {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('익명 상대에게 보내기'),
+        title: Text('Send to Anonymous'),
       ),
       body: Column(
         children: [
@@ -99,7 +90,7 @@ class _InitMailScreenState extends State<InitMailScreen> {
                     child: TextField(
                       controller: _messageController,
                       maxLines: null,
-                      decoration: InputDecoration(labelText: '메시지를 입력하세요.'),
+                      decoration: InputDecoration(labelText: 'Please enter a message'),
                       onChanged: (text) {
                         setState(() {});
                       },
@@ -117,33 +108,6 @@ class _InitMailScreenState extends State<InitMailScreen> {
             ),
           ),
         ],
-        // children: [
-        //   Padding(
-        //     padding: const EdgeInsets.all(8.0),
-        //     child: Column(
-        //       children: [
-        //         Expanded(
-        //           child: Text(
-        //             _messageController.text,
-        //             style: TextStyle(fontSize: 18),
-        //           ),
-        //         ),
-        //         SizedBox(height: 20,),
-        //         Expanded(
-        //           child: TextField(
-        //             controller: _messageController,
-        //             maxLines: null,
-        //             decoration: InputDecoration(labelText: '메시지를 입력하세요.'),
-        //           ),
-        //         ),
-        //         IconButton(
-        //             onPressed: _sendMessage,
-        //             icon: Icon(Icons.send)
-        //         )
-        //       ],
-        //     ),
-        //   ),
-        // ],
       ),
     );
   }

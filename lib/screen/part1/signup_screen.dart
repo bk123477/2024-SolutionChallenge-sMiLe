@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smile_front/screen/part2/home_screen.dart';
+import '../../config/palette.dart';
 import '/firebase_options.dart';
 import 'package:intl/intl.dart';
 
@@ -62,13 +63,14 @@ class _SignupScreenState extends State<SignupScreen> {
   late int _mission5 = 0;
   late int _mission6 = 0;
   late String _userImage;
-  bool isInput = true; //false - result
-  bool isSignIn = true; //false - SingUp
+  bool isInput = true;
+  bool isSignIn = true;
 
   getUser() async {
     final DateTime now = DateTime.now();
     final String nowStr = DateFormat('yy-MM-dd').format(now);
-    DocumentSnapshot _userDoc = await FirebaseFirestore.instance.collection('users').doc(email).get();
+    DocumentSnapshot _userDoc =
+    await FirebaseFirestore.instance.collection('users').doc(email).get();
     if (_userDoc.exists) {
       Map<String, dynamic> userData = _userDoc.data() as Map<String, dynamic>;
       email = userData['userInfo'];
@@ -100,32 +102,32 @@ class _SignupScreenState extends State<SignupScreen> {
       _prefs.setString('userName', name);
       _prefs.setInt('userScore', userScore);
       _prefs.setStringList('medications', medications);
-      if (nowStr == _dt1){
+      if (nowStr == _dt1) {
         _prefs.setBool('complete1', _complete1);
       } else {
         _prefs.setBool('complete1', false);
       }
-      if (nowStr == _dt2){
+      if (nowStr == _dt2) {
         _prefs.setBool('complete2', _complete2);
       } else {
         _prefs.setBool('complete2', false);
       }
-      if (nowStr == _dt3){
+      if (nowStr == _dt3) {
         _prefs.setBool('complete3', _complete3);
       } else {
         _prefs.setBool('complete3', false);
       }
-      if (nowStr == _dt4){
+      if (nowStr == _dt4) {
         _prefs.setBool('complete4', _complete4);
       } else {
         _prefs.setBool('complete4', false);
       }
-      if (nowStr == _dt5){
+      if (nowStr == _dt5) {
         _prefs.setBool('complete5', _complete5);
       } else {
         _prefs.setBool('complete5', false);
       }
-      if (nowStr == _dt6){
+      if (nowStr == _dt6) {
         _prefs.setBool('complete6', _complete6);
       } else {
         _prefs.setBool('complete6', false);
@@ -154,10 +156,8 @@ class _SignupScreenState extends State<SignupScreen> {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) {
-        print(value); // value에 사용자 이메일 들어가 있음.
 
         if (value.user!.emailVerified) {
-          //이메일 인증 여부
           setState(() {
             isInput = false;
           });
@@ -184,7 +184,7 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
-  signUp() async{
+  signUp() async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
@@ -211,26 +211,36 @@ class _SignupScreenState extends State<SignupScreen> {
     }
   }
 
-  List<Widget> getInputWidget() {
-    return[
-      Text(
-        isSignIn ? "SignIn" : "SignUp",
-        style: TextStyle(
-          color: Colors.indigo,
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
+  Widget getInputWidget() {
+    return Center(
+      child: Column(children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 30),
+          child: Text(
+            isSignIn ? "SignIn" : "SignUp",
+            style: TextStyle(
+              color: Colors.indigo,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
-        textAlign: TextAlign.center,
-      ),
-      Form(
+        Form(
           key: _formKey,
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:[
-                TextFormField(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 350,
+                child: TextFormField(
                   decoration: InputDecoration(
-                    labelText: '이메일을 입력하세요',
-                    border: OutlineInputBorder(),
+                    labelText: 'Please enter email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
                   ),
                   validator: (value) {
                     if (value?.isEmpty ?? false) {
@@ -243,11 +253,18 @@ class _SignupScreenState extends State<SignupScreen> {
                   },
                   keyboardType: TextInputType.emailAddress,
                 ),
-                SizedBox(height: 10),
-                TextFormField(
+              ),
+              SizedBox(height: 10),
+              Container(
+                width: 350,
+                child: TextFormField(
                   decoration: InputDecoration(
-                    labelText: '비밀번호를 입력하세요',
-                    border: OutlineInputBorder(),
+                    labelText: 'Please enter Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20),
                   ),
                   obscureText: true,
                   validator: (value) {
@@ -260,106 +277,147 @@ class _SignupScreenState extends State<SignupScreen> {
                     password = value ?? "";
                   },
                 ),
-                SizedBox(height: 10),
-                ElevatedButton(onPressed: (){
-                  if (_formKey.currentState?.validate() ?? false) {
-                    _formKey.currentState?.save();
-                    // print('email: $email, password : $password');
-                    if (isSignIn) {
-                      signIn();
-                      getUser();
-                      print(flag);
-                    } else {
-                      signUp();
+              ),
+
+              SizedBox(height: 20),
+              Container(
+                width: 200.0,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      _formKey.currentState?.save();
+                      if (isSignIn) {
+                        signIn();
+                        getUser();
+                      } else {
+                        signUp();
+                      }
                     }
-                  }
-                }, child: Text(isSignIn ? "SignIn" : "SignUp")),
-                RichText(
-                  textAlign: TextAlign.right,
-                  text: TextSpan(
-                    text: 'Go ',
-                    style: Theme.of(context).textTheme.bodyText1,
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: isSignIn ? "SignUp" : "SignIn",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              setState(() {
-                                isSignIn = !isSignIn;
-                              });
-                            }),
-                    ],
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white, backgroundColor: Palette.bgColor,
                   ),
+                  child: Text(isSignIn ? "SignIn" : "SignUp"),
                 ),
-              ]
-          )
-      )
-    ];
+              ),
+              SizedBox(height: 20),
+              RichText(
+                textAlign: TextAlign.right,
+                text: TextSpan(
+                  text: 'Go ',
+                  style: TextStyle(color: Palette.bgColor),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: isSignIn ? "SignUp" : "SignIn",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            setState(() {
+                              isSignIn = !isSignIn;
+                            });
+                          }),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
   }
 
-  List<Widget> getResultWidget() {
+  Widget getResultWidget() {
     String resultEmail = FirebaseAuth.instance.currentUser!.email!;
-    return [
-      Text(
-        isSignIn
-            ? "$resultEmail 로 로그인 하셨습니다.!"
-            : "$resultEmail 로 회원가입 하셨습니다.! 이메일 인증을 거쳐야 로그인이 가능합니다.",
-        style: TextStyle(
-          color: Colors.black54,
-          fontWeight: FontWeight.bold,
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding( // 텍스트에 패딩 추가
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              isSignIn
+                  ? "You are signed in with $resultEmail!"
+                  : "You have signed up with $resultEmail! Please verify your email to log in.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black54,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () async {
+              if (isSignIn && flag == 0) {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.clear();
+                prefs.setString('userInfo', resultEmail);
+                prefs.setString('userName', resultEmail.split('@')[0]);
+                print(prefs.get('userInfo'));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
+                );
+              } else if (isSignIn && flag == 1) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                );
+              } else {
+                setState(() {
+                  isInput = true;
+                  isSignIn = true;
+                });
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, backgroundColor: Palette.bgColor,
+              textStyle: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            child: Text(isSignIn ? "Start" : "Sign In"),
+          ),
+        ],
       ),
-      ElevatedButton(
-          onPressed: () async {
-            if (isSignIn && flag == 0) {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.clear();
-              prefs.setString('userInfo', resultEmail);
-              prefs.setString('userName', resultEmail.split('@')[0]);
-              print(prefs.get('userInfo'));
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
-              );
-            } else if (isSignIn && flag == 1) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-              );
-            }
-            else {
-              setState(() {
-                isInput = true;
-                isSignIn = true;
-              });
-            }
-          },
-          child: Text(isSignIn ? "시작하기" : "SignIn")),
-    ];
+    );
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("sMiLe"),
-      ),
-      body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: isInput ? getInputWidget() : getResultWidget()),
-    );
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Back', style: TextStyle(color: Colors.black)),
+          ),
+          title: Center(
+            child: Image.asset(
+              'asset/img/smileimoge.png',
+              height: 40,
+            ),
+          ),
+          actions: [
+            Opacity(
+                opacity: 0.0,
+                child: TextButton(onPressed: () {}, child: Text('Back')))
+          ],
+        ),
+        body: isInput ? getInputWidget() : getResultWidget());
   }
 
   void _signup() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
+      MaterialPageRoute(
+          builder: (context) => DepressionDiagnosisSelectionScreen()),
     );
   }
-
 }

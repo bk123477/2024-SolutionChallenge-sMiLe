@@ -24,19 +24,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<String?> uploadImage(XFile image, String userEmail) async {
     try {
-      // 파일 이름 설정 (예: useremail_timestamp.jpg)
       String fileName = "${_userInfo}.jpg";
 
-      // Firebase Storage에 업로드
       Reference ref = FirebaseStorage.instance.ref().child('userImages/$fileName');
       UploadTask uploadTask = ref.putFile(File(image.path));
 
-      // 업로드 완료까지 기다림
+
       final TaskSnapshot snapshot = await uploadTask;
-      // 업로드한 파일의 URL 가져오기
+
       final String downloadUrl = await snapshot.ref.getDownloadURL();
       _userImage = downloadUrl;
-      print(_userImage);
       FirebaseFirestore firestore = FirebaseFirestore.instance;
       DocumentReference docRef = firestore.collection('users').doc(_userInfo);
       await docRef.update({
@@ -58,12 +55,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       Reference ref = FirebaseStorage.instance.ref().child('userImages/$fileName');
       UploadTask uploadTask = ref.putFile(File('asset/img/smileimoge.png'));
 
-      // 업로드 완료까지 기다림
       final TaskSnapshot snapshot = await uploadTask;
-      // 업로드한 파일의 URL 가져오기
+
       final String downloadUrl = await snapshot.ref.getDownloadURL();
       _userImage = downloadUrl;
-      print(_userImage);
       FirebaseFirestore firestore = FirebaseFirestore.instance;
       DocumentReference docRef = firestore.collection('users').doc(_userInfo);
       await docRef.update({
@@ -119,7 +114,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }).then((_){
       print("Document successfully updated!");
     });
-    Navigator.pop(context); // 저장 후 이전 화면으로 돌아가기
+    Navigator.pop(context);
   }
 
   Future getImage(ImageSource imageSource) async {
@@ -132,23 +127,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Widget _buildPhotoArea(){
-    // if (_image != null) {
-    //   return Container(
-    //     width: 100, height: 100,
-    //     child: ClipOval(
-    //       child: Image.file(File(_image!.path)),
-    //     ),
-    //   );
-    // } else {
-    //   return Container(
-    //     width: 100, height: 100,
-    //     child: ClipOval(
-    //       child: Image.asset(
-    //         'asset/img/smileimoge.png',
-    //       ),
-    //     ),
-    //   );
-    // }
     if (_image != null ){
       return Container(
         width: 100, height: 100,
@@ -197,7 +175,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
         title: Center(
           child: Image.asset(
-            'asset/img/smileimoge.png', // 실제 이미지 경로로 수정해주세요.
+            'asset/img/smileimoge.png',
             height: 40,
           ),
         ),
@@ -205,12 +183,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       body: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.85, // 화면 너비의 85%
-          height: MediaQuery.of(context).size.width, // 화면 너비의 85%
+          width: MediaQuery.of(context).size.width * 0.85,
+          height: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20), // 모서리 둥글게
+            borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.5),
@@ -228,8 +206,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   Text(
                     'Edit Image',
                     style: TextStyle(
-                      fontSize: 24, // 크기를 키움
-                      fontWeight: FontWeight.bold, // 볼드 처리
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   _buildPhotoArea(),
@@ -240,7 +218,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         onPressed: (){
                           getImage(ImageSource.gallery);
                         },
-                        child: Text("사진 등록하기"),
+                        child: Text("Upload Image"),
                       ),
                       SizedBox(
                         width: 10,
@@ -249,30 +227,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         onPressed: (){
                           setDefaultImage();
                         },
-                        child: Text("기본 사진"),
+                        child: Text("Default Image"),
                       )
                     ],
                   ),
                   Text(
                     'Edit Name',
                     style: TextStyle(
-                      fontSize: 24, // 크기를 키움
-                      fontWeight: FontWeight.bold, // 볼드 처리
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: '수정하고자 하는 사용자 이름을 입력하세요.',
+                      labelText: 'Please enter the name of the user you want to modify',
                       border: OutlineInputBorder(),
 
                     ),
-                    // validator: (value) {
-                    //   if (value?.isEmpty ?? true) {
-                    //     return 'Please Enter Name';
-                    //   }
-                    //   return null;
-                    // },
-                    // onSaved: (value) => _userName = value ?? ,
                     onSaved: (value){
                       if (value == null){
                         value = _userName;
@@ -293,9 +264,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         }
                       }
                     },
-                    child: Text('수정하기'),
+                    child: Text('Modify'),
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black, backgroundColor: Colors.white, // 버튼 텍스트 색상
+                      foregroundColor: Colors.black, backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),

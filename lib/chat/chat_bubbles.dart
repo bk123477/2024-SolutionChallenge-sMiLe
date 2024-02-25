@@ -8,22 +8,25 @@ class ChatBubbles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double maxWidth = MediaQuery.of(context).size.width * 0.8; // 화면 너비의 80%로 최대 너비 설정
+
     Widget bubble = Container(
-      margin: EdgeInsets.only(top: isMe ? 10 : 4, bottom: 10, left: isMe ? 8 : 48, right: isMe ? 8 : 0), // 상대방 메시지일 경우 왼쪽 여백 조정
+      margin: EdgeInsets.only(top: isMe ? 10 : 4, bottom: 10, left: isMe ? 8 : 48, right: isMe ? 8 : 10),
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      constraints: BoxConstraints(maxWidth: maxWidth), // 여기에 최대 너비 제한 추가
       decoration: BoxDecoration(
-        color: Colors.white, // 모든 버블의 배경색을 흰색으로 통일
-        border: Border.all(color: Colors.grey), // 테두리를 검은색으로 설정
+        color: Colors.white,
+        border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8), // 모서리를 덜 둥글게 조정
+          topLeft: Radius.circular(8),
           topRight: Radius.circular(8),
-          bottomLeft: isMe ? Radius.circular(8) : Radius.circular(0), // isMe에 따라 한 쪽 모서리를 사각지게 조정
+          bottomLeft: isMe ? Radius.circular(8) : Radius.circular(0),
           bottomRight: isMe ? Radius.circular(0) : Radius.circular(8),
         ),
       ),
       child: Text(
         message,
-        style: TextStyle(color: Colors.black), // 메시지 텍스트 색상을 검은색으로 설정
+        style: TextStyle(color: Colors.black),
       ),
     );
 
@@ -34,14 +37,14 @@ class ChatBubbles extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage('asset/img/bot_image.png'), // 프로필 이미지 경로
-                radius: 16, // 원하는 크기로 조절
+                backgroundImage: AssetImage('asset/img/bot_image.png'),
+                radius: 16,
               ),
               SizedBox(width: 8),
-              Text('sMiLe Bot', style: TextStyle(fontWeight: FontWeight.bold)),
+              Text('Leni', style: TextStyle(fontWeight: FontWeight.bold)),
             ],
           ),
-          bubble, // 메시지 버블을 이름 밑에 배치
+          bubble,
         ],
       );
     } else {
@@ -51,4 +54,5 @@ class ChatBubbles extends StatelessWidget {
       );
     }
   }
+
 }

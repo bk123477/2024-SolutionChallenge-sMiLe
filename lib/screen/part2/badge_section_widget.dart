@@ -18,12 +18,12 @@ class _BadgeSectionWidgetState extends State<BadgeSectionWidget> {
     'asset/img/badge/no_phone.png',
   ];
   final List<String> _description = [
-    "하늘 보기",
-    "1부터 10까지 천천히 숫자 세기",
-    "일찍 일어나기",
-    "1분간 스트레칭",
-    "좋아하는 노래 듣기",
-    "1시간 동안 휴대폰 보지 않기"
+    "Looking at the sky",
+    "Counting slowly  from 1 to 10",
+    "Waking up early",
+    "Stretching for a minute",
+    "Listening to your favorite songs",
+    "Not looking at my cell phone for an hour"
   ];
 
   @override
@@ -68,12 +68,12 @@ class _BadgeSectionWidgetState extends State<BadgeSectionWidget> {
           context: context,
           builder: (BuildContext dialogContext) {
             return Dialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)), // Rounded corners for the dialog
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
               child: Column(
-                mainAxisSize: MainAxisSize.min, // Makes the dialog height fit the content
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)), // Rounded corners at the top
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                     child: Image.asset(_badges[index], fit: BoxFit.cover),
                   ),
                   Padding(
@@ -82,12 +82,12 @@ class _BadgeSectionWidgetState extends State<BadgeSectionWidget> {
                       children: [
                         Text(
                           _description[index],
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), // Emphasize the title
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 8),
                         Text(
-                          '총 ${mission}회 달성',
-                          style: TextStyle(fontSize: 16), // Slightly de-emphasized but still readable
+                          'Achieved ${mission} times in total',
+                          style: TextStyle(fontSize: 16),
                         ),
                       ],
                     ),

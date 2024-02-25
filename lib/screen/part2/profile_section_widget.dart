@@ -144,11 +144,11 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
       'userImage': _userImage,
     });
     prefs.clear();
-    setState(() {
-      _userInfo = "";
-      _userName = "";
-      _userScore = 0;
-    });
+    // setState(() {
+    //   _userInfo = "";
+    //   _userName = "";
+    //   _userScore = 0;
+    // });
   }
 
   @override
@@ -163,7 +163,7 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
     }
 
     return Container(
-      width: double.infinity, // 컨테이너 너비 확장
+      width: double.infinity,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.grey[300],
@@ -179,10 +179,6 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
       ),
       child: Column(
         children: [
-          // CircleAvatar(
-          //   backgroundImage: AssetImage('asset/img/smileimoge.png'),
-          //   radius: 40,
-          // ),
           Container(
             width: 100,
             height: 100,
@@ -267,7 +263,6 @@ class _ProfileSectionWidgetState extends State<ProfileSectionWidget> {
 
 
   void _navtosignup(){
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => InitScreen()));
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => InitScreen())
     );

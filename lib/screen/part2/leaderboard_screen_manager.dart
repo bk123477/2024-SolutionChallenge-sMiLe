@@ -18,16 +18,16 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
   List<Map<String, dynamic>> _topUsers = [];
   late List<String> userImages = [];
   final List<String> missions = [
-    "하늘 보기",
-    "1부터 10까지 천천히 숫자 세기",
-    "일찍 일어나기",
-    "1분간 스트레칭",
-    "좋아하는 노래 듣기",
-    "1시간 동안 휴대폰 보지 않기"
+    "Looking at the sky",
+    "Counting slowly  from 1 to 10",
+    "Waking up early",
+    "Stretching for a minute",
+    "Listening to your favorite songs",
+    "Not looking at my cell phone for an hour",
   ];
   List<bool> isChecked = List.filled(6, false);
   List<String> datetime = List.filled(6, "");
-  int _selectedViewIndex = 0; // 0 for missions, 1 for leaderboard
+  int _selectedViewIndex = 0;
 
   @override
   void initState() {
@@ -99,7 +99,7 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black, // 모던하고 심플한 느낌을 위한 색상 선택
+                    color: Colors.black,
                   ),
                 ),
                 TextSpan(
@@ -107,7 +107,7 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
-                    color: Colors.black54, // 부드러운 대조를 위해 더 어두운 색상 사용
+                    color: Colors.black54,
                   ),
                 ),
               ],
@@ -145,18 +145,11 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
 
           return ListTile(
             leading: Row(
-              mainAxisSize: MainAxisSize.min, // Row의 크기를 내용물에 맞춤
+              mainAxisSize: MainAxisSize.min,
               children: [
-                // CircleAvatar(
-                //   // 여기에 적절한 이미지가 있다면 넣어주세요, 없다면 기본 아이콘을 사용
-                //   backgroundImage: AssetImage(
-                //       'asset/img/smileimoge.png'), // 실제 이미지 경로로 변경해주세요.
-                //   // 이미지가 없을 때 주석을 해제하고 기본 아이콘을 사용할 수 있습니다.
-                //   // child: Icon(Icons.person),
-                // ),
                 _buildPhotoArea(),
-                SizedBox(width: 8), // CircleAvatar와 텍스트 사이 간격
-                Text('#${idx + 1}등',
+                SizedBox(width: 8),
+                Text('#${idx + 1}',
                     style: TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),
@@ -172,86 +165,77 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Center(
-            child: Image.asset(
-              'asset/img/smileimoge.png',
-              height: 40,
-            ),
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Image.asset(
+            'asset/img/smileimoge.png',
+            height: 40,
           ),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(48.0), // 토글 버튼의 높이 지정
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 8.0), // 좌우 마진 추가
-              decoration: BoxDecoration(
-                color: Colors.white, // 배경색 설정
-                borderRadius: BorderRadius.circular(24.0), // 모서리를 둥글게 처리
-                border: Border.all(color: Palette.bgColor), // 경계선 색상 설정
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(24.0), // 자식 위젯의 모서리를 둥글게 처리
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(48.0),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 32.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24.0),
+              border: Border.all(color: Palette.bgColor),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextButton(
                         onPressed: () => setState(() {
                           _selectedViewIndex = 0;
                         }),
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 2),
-                          // 좌우 마진 적용
-                          child: Text(
-                            '미션',
-                            style: TextStyle(
-                                color: _selectedViewIndex == 0
-                                    ? Colors.white
-                                    : Palette.bgColor),
+                        child: Text(
+                          'Mission',
+                          style: TextStyle(
+                            color: _selectedViewIndex == 0 ? Colors.white : Palette.bgColor,
                           ),
                         ),
                         style: TextButton.styleFrom(
-                          backgroundColor: _selectedViewIndex == 0
-                              ? Palette.bgColor
-                              : Colors.white,
+                          backgroundColor: _selectedViewIndex == 0 ? Palette.bgColor : Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(24.0), // 모서리 처리를 부모에서 처리
+                            borderRadius: BorderRadius.circular(24.0),
                           ),
                         ),
                       ),
                     ),
-                    Expanded(
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextButton(
                         onPressed: () => setState(() {
                           _selectedViewIndex = 1;
                         }),
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 2),
-                          // 좌우 마진 적용
-                          child: Text(
-                            '리더보드',
-                            style: TextStyle(
-                                color: _selectedViewIndex == 1
-                                    ? Colors.white
-                                    : Palette.bgColor),
+                        child: Text(
+                          'Leaderboard',
+                          style: TextStyle(
+                            color: _selectedViewIndex == 1 ? Colors.white : Palette.bgColor,
                           ),
                         ),
                         style: TextButton.styleFrom(
-                          backgroundColor: _selectedViewIndex == 1
-                              ? Palette.bgColor
-                              : Colors.white,
+                          backgroundColor: _selectedViewIndex == 1 ? Palette.bgColor : Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(24.0), // 모서리 처리를 부모에서 처리
+                            borderRadius: BorderRadius.circular(24.0),
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          )),
+          ),
+        ),
+      ),
       body: _selectedViewIndex == 0
           ? _buildMissionsView()
           : _buildLeaderboardView(),
@@ -291,6 +275,7 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
                 _prefs.setString('dt${index + 1}', "");
               }
             },
+            activeColor: Palette.bgColor,
           ),
         );
       },
@@ -300,28 +285,29 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
   Widget _buildLeaderboardView() {
     return Container(
       width: double.infinity,
-      color: Colors.white, // 배경색 설정
+      color: Colors.white,
       child: Column(
         children: [
-          SizedBox(height: 10), // 리더보드 위에 20픽셀의 여백을 추가합니다.
-          Expanded( // Expanded를 사용하여 PageView가 남은 공간을 모두 차지하도록 합니다.
+          SizedBox(height: 10),
+          Expanded(
             child: Center(
               child: PageView.builder(
                 controller: PageController(
-                  viewportFraction: 0.8, // 각 페이지가 화면 너비의 80%만 차지하도록 설정
-                  keepPage: true, // 페이지 간격 유지
+                  viewportFraction: 0.8,
+                  keepPage: true,
                   initialPage: 60,
                 ),
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10), // 각 페이지 사이의 가로 간격 추가
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.white, // 컨테이너 속 색상을 흰색으로 설정
-                      borderRadius: BorderRadius.circular(20), // 모서리를 둥글게 설정
-                      border: Border.all(color: Colors.black), // 검은색 테두리 추가
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.black),
                     ),
                     child: SingleChildScrollView(
-                      child: leaderboards[index % leaderboards.length], // 여기서 리스트의 길이로 나눈 나머지를 사용합니다.
+                      child: leaderboards[index %
+                          leaderboards.length],
                     ),
                   );
                 },
@@ -332,5 +318,77 @@ class _LeaderboardScreenManagerState extends State<LeaderboardScreenManager> {
       ),
     );
   }
-
 }
+
+
+class MyToggleWidget extends StatefulWidget {
+  @override
+  _MyToggleWidgetState createState() => _MyToggleWidgetState();
+}
+
+class _MyToggleWidgetState extends State<MyToggleWidget> {
+  int _selectedViewIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(48.0),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 8.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24.0),
+          border: Border.all(color: Palette.bgColor),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedContainer(
+                duration: Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                alignment: _selectedViewIndex == 0 ? Alignment.centerLeft : Alignment.centerRight,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Palette.bgColor,
+                    borderRadius: BorderRadius.circular(24.0),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: TextButton(
+                  onPressed: () => setState(() {
+                    _selectedViewIndex = 0;
+                  }),
+                  child: Text(
+                    'Mission',
+                    style: TextStyle(
+                      color: _selectedViewIndex == 0 ? Colors.white : Palette.bgColor,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: TextButton(
+                  onPressed: () => setState(() {
+                    _selectedViewIndex = 1;
+                  }),
+                  child: Text(
+                    'Leaderboard',
+                    style: TextStyle(
+                      color: _selectedViewIndex == 1 ? Colors.white : Palette.bgColor,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+

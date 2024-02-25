@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smile_front/screen/part1/result_screen.dart';
 
+import '../../config/palette.dart';
+
 class DepressionChecklistScreen extends StatefulWidget {
   const DepressionChecklistScreen({Key? key}) : super(key: key);
 
@@ -10,19 +12,9 @@ class DepressionChecklistScreen extends StatefulWidget {
 }
 
 class _DepressionChecklistScreenState extends State<DepressionChecklistScreen> {
-  late int score1 = 0;
-  late int score2 = 0;
-  late int score3 = 0;
-  late int score4 = 0;
-  late int score5 = 0;
-  late int score6 = 0;
-  late int score7 = 0;
-  late int score8 = 0;
-  late int score9 = 0;
-  late int score10 = 0;
+
   late int finalScore = 0;
 
-  // 체크리스트 데이터 - 예시
   final List<String> symptoms = [
     "Little interest or pleasure in doing things ",
     "Feeling down, depressed, or hopeless.",
@@ -40,666 +32,113 @@ class _DepressionChecklistScreenState extends State<DepressionChecklistScreen> {
   @override
   void initState() {
     super.initState();
-    // 모든 증상에 대해 체크 상태 초기화
   }
+
+  Map<int, int> scores = {};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('진단 체크리스트'),
+        automaticallyImplyLeading: false,
+        leading: TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text('Back', style: TextStyle(color: Colors.black)),
+        ),
+        title: Center(
+          child: Image.asset(
+            'asset/img/smileimoge.png',
+            height: 40,
+          ),
+        ),
+        actions: [Opacity(opacity: 0.0, child: TextButton(onPressed: () {}, child: Text('Back')))],
       ),
-      body: ListView(
+      body: Column(
         children: <Widget>[
-          Column(
-            children: [
-              Text('1. ${symptoms[0]}'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: ListTile(
-                    title: Text('전혀 아님'),
-                    leading: Radio(
-                      value: 0,
-                      groupValue: score1,
-                      onChanged: (value){
-                        setState(() {
-                          score1 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                  Expanded(child: ListTile(
-                    title: Text('가끔'),
-                    leading: Radio(
-                      value: 1,
-                      groupValue: score1,
-                      onChanged: (value){
-                        setState(() {
-                          score1 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          Expanded(
+            child: ListView.builder(
+              itemCount: symptoms.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Expanded(child: ListTile(
-                      title: Text('종종'),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: score1,
-                        onChanged: (value){
-                          setState(() {
-                            score1 = value!;
-                          });
-                        },
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        '${index + 1}. ${symptoms[index]}',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    )),
-                    Expanded(child: ListTile(
-                      title: Text('항상'),
-                      leading: Radio(
-                        value: 3,
-                        groupValue: score1,
-                        onChanged: (value){
-                          setState(() {
-                            score1 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                  ]
-              )
-            ],
+                    ),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 3,
+                      crossAxisSpacing: 4,
+                      mainAxisSpacing: 4,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: List.generate(4, (optionIndex) => ListTile(
+                        title: Text(_getOptionText(optionIndex)),
+                        leading: Radio<int>(
+                          value: optionIndex,
+                          groupValue: scores[index],
+                          onChanged: (int? value) {
+                            setState(() {
+                              scores[index] = value!;
+                            });
+                          },
+                          activeColor: Palette.bgColor,
+                        ),
+                      )),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
-          Column(
-            children: [
-              Text('2. ${symptoms[1]}'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: ListTile(
-                    title: Text('전혀 아님'),
-                    leading: Radio(
-                      value: 0,
-                      groupValue: score2,
-                      onChanged: (value){
-                        setState(() {
-                          score2 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                  Expanded(child: ListTile(
-                    title: Text('가끔'),
-                    leading: Radio(
-                      value: 1,
-                      groupValue: score2,
-                      onChanged: (value){
-                        setState(() {
-                          score2 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(child: ListTile(
-                      title: Text('종종'),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: score2,
-                        onChanged: (value){
-                          setState(() {
-                            score2 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                    Expanded(child: ListTile(
-                      title: Text('항상'),
-                      leading: Radio(
-                        value: 3,
-                        groupValue: score2,
-                        onChanged: (value){
-                          setState(() {
-                            score2 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                  ]
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Text('3. ${symptoms[2]}'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: ListTile(
-                    title: Text('전혀 아님'),
-                    leading: Radio(
-                      value: 0,
-                      groupValue: score3,
-                      onChanged: (value){
-                        setState(() {
-                          score3 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                  Expanded(child: ListTile(
-                    title: Text('가끔'),
-                    leading: Radio(
-                      value: 1,
-                      groupValue: score3,
-                      onChanged: (value){
-                        setState(() {
-                          score3 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(child: ListTile(
-                      title: Text('종종'),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: score3,
-                        onChanged: (value){
-                          setState(() {
-                            score3 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                    Expanded(child: ListTile(
-                      title: Text('항상'),
-                      leading: Radio(
-                        value: 3,
-                        groupValue: score3,
-                        onChanged: (value){
-                          setState(() {
-                            score3 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                  ]
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Text('4. ${symptoms[3]}'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: ListTile(
-                    title: Text('전혀 아님'),
-                    leading: Radio(
-                      value: 0,
-                      groupValue: score4,
-                      onChanged: (value){
-                        setState(() {
-                          score4 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                  Expanded(child: ListTile(
-                    title: Text('가끔'),
-                    leading: Radio(
-                      value: 1,
-                      groupValue: score4,
-                      onChanged: (value){
-                        setState(() {
-                          score4 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(child: ListTile(
-                      title: Text('종종'),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: score4,
-                        onChanged: (value){
-                          setState(() {
-                            score4 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                    Expanded(child: ListTile(
-                      title: Text('항상'),
-                      leading: Radio(
-                        value: 3,
-                        groupValue: score4,
-                        onChanged: (value){
-                          setState(() {
-                            score4 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                  ]
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Text('5. ${symptoms[4]}'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: ListTile(
-                    title: Text('전혀 아님'),
-                    leading: Radio(
-                      value: 0,
-                      groupValue: score5,
-                      onChanged: (value){
-                        setState(() {
-                          score5 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                  Expanded(child: ListTile(
-                    title: Text('가끔'),
-                    leading: Radio(
-                      value: 1,
-                      groupValue: score5,
-                      onChanged: (value){
-                        setState(() {
-                          score5 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(child: ListTile(
-                      title: Text('종종'),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: score5,
-                        onChanged: (value){
-                          setState(() {
-                            score5 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                    Expanded(child: ListTile(
-                      title: Text('항상'),
-                      leading: Radio(
-                        value: 3,
-                        groupValue: score5,
-                        onChanged: (value){
-                          setState(() {
-                            score5 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                  ]
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Text('6. ${symptoms[5]}'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: ListTile(
-                    title: Text('전혀 아님'),
-                    leading: Radio(
-                      value: 0,
-                      groupValue: score6,
-                      onChanged: (value){
-                        setState(() {
-                          score6 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                  Expanded(child: ListTile(
-                    title: Text('가끔'),
-                    leading: Radio(
-                      value: 1,
-                      groupValue: score6,
-                      onChanged: (value){
-                        setState(() {
-                          score6 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(child: ListTile(
-                      title: Text('종종'),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: score6,
-                        onChanged: (value){
-                          setState(() {
-                            score6 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                    Expanded(child: ListTile(
-                      title: Text('항상'),
-                      leading: Radio(
-                        value: 3,
-                        groupValue: score6,
-                        onChanged: (value){
-                          setState(() {
-                            score6 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                  ]
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Text('7. ${symptoms[6]}'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: ListTile(
-                    title: Text('전혀 아님'),
-                    leading: Radio(
-                      value: 0,
-                      groupValue: score7,
-                      onChanged: (value){
-                        setState(() {
-                          score7 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                  Expanded(child: ListTile(
-                    title: Text('가끔'),
-                    leading: Radio(
-                      value: 1,
-                      groupValue: score7,
-                      onChanged: (value){
-                        setState(() {
-                          score7 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(child: ListTile(
-                      title: Text('종종'),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: score7,
-                        onChanged: (value){
-                          setState(() {
-                            score7 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                    Expanded(child: ListTile(
-                      title: Text('항상'),
-                      leading: Radio(
-                        value: 3,
-                        groupValue: score7,
-                        onChanged: (value){
-                          setState(() {
-                            score7 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                  ]
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Text('8. ${symptoms[7]}'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: ListTile(
-                    title: Text('전혀 아님'),
-                    leading: Radio(
-                      value: 0,
-                      groupValue: score8,
-                      onChanged: (value){
-                        setState(() {
-                          score8 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                  Expanded(child: ListTile(
-                    title: Text('가끔'),
-                    leading: Radio(
-                      value: 1,
-                      groupValue: score8,
-                      onChanged: (value){
-                        setState(() {
-                          score8 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(child: ListTile(
-                      title: Text('종종'),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: score8,
-                        onChanged: (value){
-                          setState(() {
-                            score8 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                    Expanded(child: ListTile(
-                      title: Text('항상'),
-                      leading: Radio(
-                        value: 3,
-                        groupValue: score8,
-                        onChanged: (value){
-                          setState(() {
-                            score8 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                  ]
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Text('9. ${symptoms[8]}'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: ListTile(
-                    title: Text('전혀 아님'),
-                    leading: Radio(
-                      value: 0,
-                      groupValue: score9,
-                      onChanged: (value){
-                        setState(() {
-                          score9 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                  Expanded(child: ListTile(
-                    title: Text('가끔'),
-                    leading: Radio(
-                      value: 1,
-                      groupValue: score9,
-                      onChanged: (value){
-                        setState(() {
-                          score9 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(child: ListTile(
-                      title: Text('종종'),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: score9,
-                        onChanged: (value){
-                          setState(() {
-                            score9 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                    Expanded(child: ListTile(
-                      title: Text('항상'),
-                      leading: Radio(
-                        value: 3,
-                        groupValue: score9,
-                        onChanged: (value){
-                          setState(() {
-                            score9 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                  ]
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Text('10. ${symptoms[9]}'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(child: ListTile(
-                    title: Text('전혀 아님'),
-                    leading: Radio(
-                      value: 0,
-                      groupValue: score10,
-                      onChanged: (value){
-                        setState(() {
-                          score10 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                  Expanded(child: ListTile(
-                    title: Text('가끔'),
-                    leading: Radio(
-                      value: 1,
-                      groupValue: score10,
-                      onChanged: (value){
-                        setState(() {
-                          score10 = value!;
-                        });
-                      },
-                    ),
-                  )),
-                ],
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(child: ListTile(
-                      title: Text('종종'),
-                      leading: Radio(
-                        value: 2,
-                        groupValue: score10,
-                        onChanged: (value){
-                          setState(() {
-                            score10 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                    Expanded(child: ListTile(
-                      title: Text('항상'),
-                      leading: Radio(
-                        value: 3,
-                        groupValue: score10,
-                        onChanged: (value){
-                          setState(() {
-                            score10 = value!;
-                          });
-                        },
-                      ),
-                    )),
-                  ]
-              )
-            ],
-          ),
+
           ElevatedButton(
             onPressed: () async {
-              finalScore = score1+score2+score3+score4+score5+score6+score7+score8+score9+score10;
+              finalScore = scores.values.reduce((a, b) => a + b);
               SharedPreferences prefs = await SharedPreferences.getInstance();
               prefs.setInt('userScore', finalScore);
+              print(finalScore);
               _navtoresult();
             },
-            child: Text('제출하고 점수 확인하기'),
-          )
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, backgroundColor: Palette.bgColor,
+              textStyle: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            child: Text('Submit and check score'),
+          ),
         ],
       ),
     );
   }
 
+  String _getOptionText(int index) {
+    switch (index) {
+      case 0:
+        return 'Never';
+      case 1:
+        return 'Sometimes';
+      case 2:
+        return 'Usually';
+      case 3:
+        return 'Always';
+      default:
+        return '';
+    }
+  }
+
   void _navtoresult() {
-    // 체크리스트 제출 로직
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ResultScreenWidget()), // 가상의 결과 스크린
+      MaterialPageRoute(builder: (context) => ResultScreenWidget()),
     );
   }
 }
