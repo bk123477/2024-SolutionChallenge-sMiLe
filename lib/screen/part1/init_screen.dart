@@ -176,12 +176,23 @@ class _InitScreenState extends State<InitScreen> {
                             context,
                             MaterialPageRoute(builder: (context) => HomeScreen()),
                           );
+                        } else {
+                          email = googleUser.email;
+                          name = email.split('@')[0];
+                          SharedPreferences _prefs = await SharedPreferences.getInstance();
+                          _prefs.setString('userInfo', email);
+                          _prefs.setString('userName', name);
+                          _prefs.setStringList('medications', ["예시: 비타민C",]);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
+                          );
                         }
                       } else{
                         SharedPreferences _prefs = await SharedPreferences.getInstance();
                         _prefs.setString('userInfo', email);
                         _prefs.setString('userName', email.split('@')[0]);
-                        _prefs.setStringList('medications', ["예시: 비타민C",]);
+                        _prefs.setStringList('medications', ["Example: vitamin",]);
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
