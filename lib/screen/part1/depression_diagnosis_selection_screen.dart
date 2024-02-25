@@ -27,7 +27,7 @@ class _DepressionDiagnosisSelectionScreenState extends State<DepressionDiagnosis
       body: Center(
         child: Container(
           width: 300, // 컨테이너의 너비 설정
-          height: 300, // 컨테이너의 높이 설정
+          height: 250, // 컨테이너의 높이 설정
           decoration: BoxDecoration(
             color: Colors.white, // 컨테이너 배경색을 흰색으로 설정
             border: Border.all(color: Colors.black, width: 2), // 컨테이너 테두리를 검은색으로 설정
@@ -65,14 +65,14 @@ class _DepressionDiagnosisSelectionScreenState extends State<DepressionDiagnosis
                 ),
                 child: Text('Diagnose with Checklist'), // 버튼 텍스트 영어로 번역
               ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _navigateToChatbotDiagnosis,
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: Palette.bgColor, // 버튼 텍스트 색상을 흰색으로 설정
-                ),
-                child: Text('Diagnose with Chatbot'), // 버튼 텍스트 영어로 번역
-              ),
+              // SizedBox(height: 20),
+              // ElevatedButton(
+              //   onPressed: _navigateToChatbotDiagnosis,
+              //   style: ElevatedButton.styleFrom(
+              //     foregroundColor: Colors.white, backgroundColor: Palette.bgColor, // 버튼 텍스트 색상을 흰색으로 설정
+              //   ),
+              //   child: Text('Diagnose with Chatbot'), // 버튼 텍스트 영어로 번역
+              // ),
             ],
           ),
         ),
