@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../config/palette.dart';
 import 'chat_bubbles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,11 +18,18 @@ class NewMessage extends StatefulWidget {
 class _NewMessageState extends State<NewMessage> {
   final _controller = TextEditingController();
   late Stream<QuerySnapshot> chatDocs;
+  late String _userInfo ="";
+
+  getUser() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _userInfo = _prefs.getString("userInfo")!;
+    chatDocs = FirebaseFirestore.instance.collection('chat').orderBy('time', descending: true).snapshots();
+  }
 
   @override
   void initState() {
     super.initState();
-    chatDocs = FirebaseFirestore.instance.collection('chat').orderBy('time', descending: true).snapshots();
+    getUser();
   }
 
   @override
@@ -36,6 +44,7 @@ class _NewMessageState extends State<NewMessage> {
     FirebaseFirestore.instance.collection('chat').add({
       'chat': _controller.text,
       'isUser': true,
+      'userInfo': _userInfo,
       'time': Timestamp.now(),
     });
     _sendChatRequest();
@@ -62,6 +71,7 @@ class _NewMessageState extends State<NewMessage> {
     FirebaseFirestore.instance.collection('chat').add({
       'chat': chat_text,
       'isUser': false,
+      'userInfo': _userInfo,
       'time': Timestamp.now(),
     });
   }

@@ -13,36 +13,68 @@ class Messages extends StatefulWidget {
 class _MessagesState extends State<Messages> {
   TextEditingController _messageController = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late String _userInfo = "";
+
+  @override
+  void initState(){
+    super.initState();
+    getUser();
+    print(_userInfo);
+  }
+
+  Future<String?>getUser() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    return _prefs.getString('userInfo');
+  }
 
   @override
   Widget build(BuildContext context) {
-    var chatDocs = _firestore.collection('chat').orderBy('time', descending: true).snapshots();
+    return FutureBuilder<String?>(
+      future: getUser(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
 
-    return Column(
-      children: [
-        Expanded(
-          child: StreamBuilder(
-            stream: chatDocs,
-            builder: (context, AsyncSnapshot<QuerySnapshot> chatDocs) {
-              if (chatDocs.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              var chatDocsList = chatDocs.data!.docs;
-              return ListView.builder(
-                reverse: true,
-                itemCount: chatDocsList.length,
-                itemBuilder: (context, index) => ChatBubbles(
-                  chatDocsList[index]['chat'] as String,
-                  chatDocsList[index]['isUser'] as bool,
-                  chatDocsList[index]['time'] as Timestamp,
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+        final _userInfo = snapshot.data;
+        // null 체크
+        if (_userInfo == null) {
+          return Center(child: Text("No user info found"));
+        }
+
+        var chatDocs = _firestore
+            .collection('chat')
+            .where('userInfo', isEqualTo: _userInfo)
+            .orderBy('time', descending: true)
+            .snapshots();
+
+        return Column(
+          children: [
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: chatDocs,
+                builder: (context, AsyncSnapshot<QuerySnapshot> chatSnapshot) {
+                  if (chatSnapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+
+                  final chatDocsList = chatSnapshot.data?.docs ?? [];
+                  return ListView.builder(
+                    reverse: true,
+                    itemCount: chatDocsList.length,
+                    itemBuilder: (context, index) =>
+                        ChatBubbles(
+                          chatDocsList[index]['chat'],
+                          chatDocsList[index]['isUser'],
+                          chatDocsList[index]['time'],
+                        ),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
-    }
+  }
   }
