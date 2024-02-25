@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../config/palette.dart';
 import 'chat_bubbles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
@@ -81,7 +82,7 @@ class _NewMessageState extends State<NewMessage> {
           IconButton(
             onPressed: _sendMessage,
             icon: Icon(Icons.send),
-            color: Colors.blue,
+            color: Palette.bgColor,
           ),
         ],
       ),

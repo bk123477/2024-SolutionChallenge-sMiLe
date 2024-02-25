@@ -13,9 +13,9 @@ class _ChatScreenManagerState extends State<ChatScreenManager> {
   bool isDailyDialogueScreen = true; // 현재 활성화된 스크린 플래그
 
   void toggleScreen() {
-    setState(() {
-      isDailyDialogueScreen = !isDailyDialogueScreen; // 스크린 전환
-    });
+    // setState(() {
+    //   isDailyDialogueScreen = !isDailyDialogueScreen; // 스크린 전환
+    // });
   }
 
   @override
