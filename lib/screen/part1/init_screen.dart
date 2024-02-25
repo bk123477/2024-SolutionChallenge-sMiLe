@@ -182,7 +182,7 @@ class _InitScreenState extends State<InitScreen> {
                           SharedPreferences _prefs = await SharedPreferences.getInstance();
                           _prefs.setString('userInfo', email);
                           _prefs.setString('userName', name);
-                          _prefs.setStringList('medications', ["예시: 비타민C",]);
+                          _prefs.setStringList('medications', ["Example: vitamin",]);
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => DepressionDiagnosisSelectionScreen()),
