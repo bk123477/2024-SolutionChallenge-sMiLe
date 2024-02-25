@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:smile_front/screen/part2/badge_section_widget2.dart';
-import 'profile_section_widget2.dart';
+import 'package:smile_front/screen/part2/badge_section_widget.dart';
+import 'profile_section_widget.dart';
 import 'medication_section_widget.dart';
 
 class MypageScreenManager extends StatefulWidget {
@@ -30,20 +30,18 @@ class _MypageScreenManagerState extends State<MypageScreenManager> {
     userName = prefs.getString('userName')!;
     userScore = prefs.getInt('userScore')!;
     medications = prefs.getStringList('medications') ?? ['복용 정보 없음'];
-    mission1 = prefs.getInt('mission1')!;
-    mission2 = prefs.getInt('mission2')!;
-    mission3 = prefs.getInt('mission3')!;
-    mission4 = prefs.getInt('mission4')!;
-    mission5 = prefs.getInt('mission5')!;
-    mission6 = prefs.getInt('mission6')!;
+    mission1 = prefs.getInt('mission1') ?? 0;
+    mission2 = prefs.getInt('mission2') ?? 0;
+    mission3 = prefs.getInt('mission3') ?? 0;
+    mission4 = prefs.getInt('mission4') ?? 0;
+    mission5 = prefs.getInt('mission5') ?? 0;
+    mission6 = prefs.getInt('mission6') ?? 0;
     missions.add(mission1);
     missions.add(mission2);
     missions.add(mission3);
     missions.add(mission4);
     missions.add(mission5);
     missions.add(mission6);
-    // print(userInfo);
-    // print(missions);
   }
 
   final List<Map<String, String>> badges = [
@@ -69,7 +67,7 @@ class _MypageScreenManagerState extends State<MypageScreenManager> {
         automaticallyImplyLeading: false,
         title: Center(
           child: Image.asset(
-            'asset/img/smileimoge.png', // 앱바 중앙 이미지 경로. 실제 경로로 수정해주세요.
+            'asset/img/smileimoge.png',
             height: 40,
           ),
         ),
@@ -78,7 +76,6 @@ class _MypageScreenManagerState extends State<MypageScreenManager> {
         child: Column(
           children: [
             _buildSectionTitle("Badge"),
-            // BadgeSectionWidget(badges: badges, missions: missions),
             BadgeSectionWidget(),
             SizedBox(height: 20),
             _buildSectionTitle("Profile"),

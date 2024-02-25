@@ -41,7 +41,7 @@ class ChatBubbles extends StatelessWidget {
                 radius: 16,
               ),
               SizedBox(width: 8),
-              Text('Reni', style: TextStyle(fontWeight: FontWeight.bold)),
+              Text('Leni', style: TextStyle(fontWeight: FontWeight.bold)),
             ],
           ),
           bubble,

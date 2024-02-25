@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'chat_screen_manager.dart';
-import 'leaderboard_screen_manager2.dart';
+import 'leaderboard_screen_manager.dart';
 import 'mailbox_screen_manager.dart';
 import 'mypage_screen_manager.dart';
 
@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 3; // 현재 선택된 탭 인덱스
+  int _selectedIndex = 3;
 
   // 각 탭에 대응하는 화면들
   final List<Widget> _screens = [
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black, // 클릭 시 글씨 색상
+        selectedItemColor: Colors.black,
 
         onTap: _onItemTapped,
       ),

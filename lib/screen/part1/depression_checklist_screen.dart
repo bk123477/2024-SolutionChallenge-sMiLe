@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smile_front/screen/part1/result_screen.dart';
-import '../../config/palette.dart'; // Palette 설정이 포함된 경로를 확인해주세요.
+
+import '../../config/palette.dart';
 
 class DepressionChecklistScreen extends StatefulWidget {
   const DepressionChecklistScreen({Key? key}) : super(key: key);
@@ -10,78 +12,133 @@ class DepressionChecklistScreen extends StatefulWidget {
 }
 
 class _DepressionChecklistScreenState extends State<DepressionChecklistScreen> {
+
+  late int finalScore = 0;
+
   final List<String> symptoms = [
-    "일상 활동에 대한 관심 상실",
-    "지속적인 우울한 기분",
-    "수면 장애",
-    "피로감 또는 에너지 상실",
+    "Little interest or pleasure in doing things ",
+    "Feeling down, depressed, or hopeless.",
+    "Trouble falling or staying asleep, or sleeping too much",
+    "Feeling tired or having little energy",
+    "Poor appetite or overeating",
+    "Feeling bad about yourself - or that you are a failure or have let yourself or your family down",
+    "Trouble concentrating on things, such as reading the newspaper or watching television",
+    "Moving or speaking so slowly that other people could have noticed Or the opposite - being so fidgety or restless that you have been moving around a lot more than usual",
+    "Thoughts that you would be better off dead, or of hurting yourself",
+    "If you checked off any problems, how difficult have these problems made it for you at work, home, or with other people?",
   ];
-  final List<bool> checked = [];
+
 
   @override
   void initState() {
     super.initState();
-    checked.addAll(List.generate(symptoms.length, (index) => false));
   }
+
+  Map<int, int> scores = {};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: IconThemeData(
-          color: Colors.white, // AppBar 아이콘 색상을 흰색으로 설정
+        automaticallyImplyLeading: false,
+        leading: TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text('Back', style: TextStyle(color: Colors.black)),
         ),
-        title: Image.asset(
-          'asset/img/smilelettering.png', // 앱바에 들어갈 이미지 경로
-          height: 40.0, // 이미지 높이 조절
-        ),
-        centerTitle: true,
-      ),
-      backgroundColor: Palette.bgColor, // 배경색 설정
-      body: ListView(
-        padding: const EdgeInsets.all(8.0),
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('진단 체크리스트', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
+        title: Center(
+          child: Image.asset(
+            'asset/img/smileimoge.png',
+            height: 40,
           ),
-          ...symptoms.map((symptom) => CheckboxListTile(
-            value: checked[symptoms.indexOf(symptom)],
-            onChanged: (bool? value) {
-              setState(() {
-                checked[symptoms.indexOf(symptom)] = value!;
-              });
+        ),
+        actions: [Opacity(opacity: 0.0, child: TextButton(onPressed: () {}, child: Text('Back')))],
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+              itemCount: symptoms.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        '${index + 1}. ${symptoms[index]}',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: 3,
+                      crossAxisSpacing: 4,
+                      mainAxisSpacing: 4,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: List.generate(4, (optionIndex) => ListTile(
+                        title: Text(_getOptionText(optionIndex)),
+                        leading: Radio<int>(
+                          value: optionIndex,
+                          groupValue: scores[index],
+                          onChanged: (int? value) {
+                            setState(() {
+                              scores[index] = value!;
+                            });
+                          },
+                          activeColor: Palette.bgColor,
+                        ),
+                      )),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+
+          ElevatedButton(
+            onPressed: () async {
+              finalScore = scores.values.reduce((a, b) => a + b);
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setInt('userScore', finalScore);
+              print(finalScore);
+              _navtoresult();
             },
-            title: Text(symptom, style: TextStyle(color: Colors.white)),
-            checkColor: Palette.bgColor, // 체크박스 내부 색상
-            activeColor: Colors.white, // 체크박스 외부 색상
-            controlAffinity: ListTileControlAffinity.leading, // 체크박스를 텍스트 앞으로 이동
-            side: BorderSide(color: Colors.white), // 체크박스 테두리 색상
-          ))
-              .toList(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 100.0, vertical: 20.0),
-            child: ElevatedButton(
-              onPressed: _submitChecklist,
-              child: Text('제출하고 점수 확인하기', style: TextStyle(color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.transparent,
-                side: BorderSide(color: Colors.white, width: 2),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, backgroundColor: Palette.bgColor,
+              textStyle: TextStyle(
+                fontSize: 16,
               ),
             ),
+            child: Text('Submit and check score'),
           ),
         ],
       ),
     );
   }
 
-  void _submitChecklist() {
+  String _getOptionText(int index) {
+    switch (index) {
+      case 0:
+        return 'Never';
+      case 1:
+        return 'Sometimes';
+      case 2:
+        return 'Usually';
+      case 3:
+        return 'Always';
+      default:
+        return '';
+    }
+  }
+
+  void _navtoresult() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ResultScreen()),
+      MaterialPageRoute(builder: (context) => ResultScreenWidget()),
     );
   }
 }

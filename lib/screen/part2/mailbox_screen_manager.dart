@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smile_front/screen/part2/init_mail_screen.dart';
-import 'package:smile_front/screen/part2/replymail_screen_manager2.dart';
+import 'package:smile_front/screen/part2/replymail_screen_manager.dart';
 
 import '../../config/palette.dart';
 
@@ -21,8 +21,6 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
     "New mail has arrived! 4",
     "New mail has arrived! 5",
     "New mail has arrived! 6",
-
-    // ... 기타 알림
   ];
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late String myName;
@@ -46,15 +44,11 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
     var result = await _firestore.collection('messages')
         .doc(myName).get();
     Map<String, dynamic> resultData = result.data() as Map<String, dynamic>;
-    // var keys = resultData.keys;
-    // print(keys.toList());
     resultData.forEach((key, value){
       senderInfo.add(key);
       senderMessage.add(resultData[key]!.last["message"]);
     });
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -78,10 +72,10 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
               itemCount: senderInfo.length,
               itemBuilder: (context, index){
                 return Card(
-                  color: Colors.white, // 카드 배경색을 흰색으로 설정
+                  color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.grey, width: 1), // 회색 테두리
-                    borderRadius: BorderRadius.circular(4), // 테두리 둥글게
+                    side: BorderSide(color: Colors.grey, width: 1),
+                    borderRadius: BorderRadius.circular(4),
                   ),
                   child: ListTile(
                     title: Center(child: Text(notifications[index], style: TextStyle(color: Colors.grey))),
@@ -101,12 +95,11 @@ class _MailboxScreenManagerState extends State<MailboxScreenManager> {
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
-                // 익명 상대에게 보내기 기능 구현
                 _navtoinitmail();
               },
               child: Text('Send to Anonymous', style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Palette.bgColor, // 버튼 배경색을 회색으로 설정
+                backgroundColor: Palette.bgColor,
               ),
             ),
           ),
