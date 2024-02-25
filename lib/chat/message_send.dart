@@ -45,7 +45,7 @@ class _NewMessageState extends State<NewMessage> {
   // 입력받은 메세지를 api로 전송하여 답변을 만들어서 firestore에 저장
   void _sendChatRequest() async {
     print('Sending a chat request...');
-    final url = Uri.parse('http://10.0.2.2:3000/chat');
+    final url = Uri.parse('http://210.94.179.18:9068/chat');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({'userInput': _controller.text});
     final response = await http.post(url, headers: headers, body: body);
@@ -54,8 +54,8 @@ class _NewMessageState extends State<NewMessage> {
     } else {
       print('Failed to send chat request');
     }
-    print('Response: ${jsonDecode(response.body)['text']}');
-    var chat_text = jsonDecode(response.body)['text'];
+    print('Response: ${jsonDecode(response.body)['response']}');
+    var chat_text = jsonDecode(response.body)['response'];
     if (chat_text == null) {
       chat_text = 'Sorry, I cannot understand...';
     }
