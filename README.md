@@ -12,8 +12,8 @@ https://github.com/GDSC-sMiLe
 ## 🏘 OUR FAMS
 | NAME | PART | EMAIL |
 | ------- | ------- | ------- |
-| Minki Hong  |  Front End  | bk123477@gmail.com  |
-| Dawon Lee  |  Front End  | dawon337@gmail.com  |
+| Minki Hong  |  App Development  | bk123477@gmail.com  |
+| Dawon Lee  |  App Development  | dawon337@gmail.com  |
 | Yunji Kim  |  Chatbot AI  | wendyunji@gmail.com  |
 | Yunju Lee  |  Chatbot AI  | eyunju4928@gmail.com  |
 
