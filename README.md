@@ -12,10 +12,10 @@ https://github.com/GDSC-sMiLe
 ## 🏘 OUR FAMS
 | NAME | PART | EMAIL |
 | ------- | ------- | ------- |
-| Minki Hong  |  Front End  | bk123477@gmail.com |
+| Minki Hong  |  Front End  | bk123477@gmail.com  |
 | Dawon Lee  |  Front End  | dawon337@gmail.com  |
-| Yunji Kim  |    |   |
-| Yunju Lee  |    |   |
+| Yunji Kim  |  Chatbot AI  | wendyunji@gmail.com  |
+| Yunju Lee  |  Chatbot AI  | eyunju4928@gmail.com  |
 
 ###
 ## 🔨 Which Techs are used for sMiLe?
@@ -34,16 +34,6 @@ https://github.com/GDSC-sMiLe
 ###
 ## 🗝 HOW TO USE
 
-### friendly chatbot
-1. npm install
-2. create .env file and add your API key as:
-     API_KEY='YOUR_KEY'
-
-get a API_KEY from https://ai.google.dev/?gad_source=1&gclid=CjwKCAiA_tuuBhAUEiwAvxkgToS3-mUrKbr5JnhhQQhRI1NrR5XBxi1uVz3HnR-YmR2_vk1rbhbpRxoCK7wQAvD_BwE
-3. Run node server.js
-4. Open https://localhost:3000
-
----
 
 
 ### Flutter App
