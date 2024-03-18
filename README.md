@@ -43,7 +43,7 @@ Install App [Here](https://drive.google.com/drive/folders/1IkbECU6V91VW5dOiSl7Kx
 
 
 
-Or... Use Android emulator in PC
+Or... You can use Android emulator in PC
 
 First install or upgrade to the latest version of Flutter. Follow these installation_ [_guides_ ](https://flutter.dev/docs/get-started/install)*
 
